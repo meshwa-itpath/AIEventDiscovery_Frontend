@@ -1,0 +1,73 @@
+/* ── Dark Theme Colors (PrimeFlex handles everything else) ── */
+
+.landing-bg {
+  background: #0d1117;
+}
+
+.landing-card {
+  max-width: 720px;
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.nav-border {
+  border-bottom: 1px solid #30363d;
+}
+
+.brand-name {
+  color: #e6edf3;
+}
+
+.hero-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #e6edf3;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.hero-subtitle {
+  color: #8b949e;
+  max-width: 420px;
+  margin: 0;
+}
+
+.search-field {
+  width: 100%;
+  max-width: 500px;
+}
+
+.search-input {
+  background: #21262d !important;
+  border-color: #30363d !important;
+  color: #e6edf3 !important;
+}
+
+.search-input::placeholder {
+  color: #484f58 !important;
+}
+
+.hint-text {
+  color: #8b949e;
+}
+
+.section-divider {
+  border-top: 1px solid #30363d;
+}
+
+.feature-item {
+  max-width: 185px;
+}
+
+.feature-title {
+  color: #e6edf3;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.feature-desc {
+  color: #8b949e;
+  margin: 0;
+}

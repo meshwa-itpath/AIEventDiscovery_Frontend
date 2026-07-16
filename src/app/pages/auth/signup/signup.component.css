@@ -1,0 +1,66 @@
+.signup-bg {
+  background: #0d1117;
+}
+
+.signup-card {
+  max-width: 480px;
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.logo-header {
+  border-bottom: 1px solid #30363d;
+}
+
+.brand-name {
+  color: #e6edf3;
+}
+
+.auth-title {
+  color: #e6edf3;
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+.auth-subtitle {
+  color: #8b949e;
+}
+
+.label-text {
+  color: #c9d1d9;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.form-input {
+  background: #21262d !important;
+  border-color: #30363d !important;
+  color: #e6edf3 !important;
+}
+
+.form-input::placeholder {
+  color: #484f58 !important;
+}
+
+.error-container {
+  min-height: 18px;
+}
+
+.error-text {
+  color: #f85149;
+}
+
+.hint-text {
+  color: #8b949e;
+}
+
+.nav-link {
+  color: #58a6ff;
+  text-decoration: none;
+}
+
+.nav-link:hover {
+  text-decoration: underline;
+}

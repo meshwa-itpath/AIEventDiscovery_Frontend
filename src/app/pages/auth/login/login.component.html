@@ -1,0 +1,85 @@
+<div class="login-bg flex align-items-center justify-content-center min-h-screen p-4">
+  <div class="login-card w-full">
+    
+    <!-- ── Header / Logo ── -->
+    <div class="flex align-items-center gap-2 px-5 py-3 logo-header cursor-pointer" routerLink="/">
+      <i class="pi pi-calendar text-primary text-xl"></i>
+      <span class="text-xl font-bold brand-name">EventFind</span>
+    </div>
+
+    <!-- ── Form Body ── -->
+    <div class="px-5 py-6">
+      <div class="text-center mb-5">
+        <h2 class="auth-title mb-2">Welcome back</h2>
+        <p class="auth-subtitle">Sign in to your account</p>
+      </div>
+
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="flex flex-column gap-4">
+        
+        <!-- Email Input -->
+        <div class="flex flex-column gap-2">
+          <label for="email" class="label-text">Email Address</label>
+          <input
+            pInputText
+            id="email"
+            type="email"
+            formControlName="email"
+            placeholder="you@example.com"
+            class="w-full form-input"
+            [class.ng-invalid]="isControlInvalid('email')"
+            [class.ng-dirty]="isControlInvalid('email')"
+          />
+          <div *ngIf="isControlInvalid('email')" class="error-container">
+            <span *ngIf="loginForm.get('email')?.errors?.['required']" class="text-xs error-text">
+              Email is required.
+            </span>
+            <span *ngIf="loginForm.get('email')?.errors?.['email']" class="text-xs error-text">
+              Please enter a valid email address.
+            </span>
+          </div>
+        </div>
+
+        <!-- Password Input -->
+        <div class="flex flex-column gap-2">
+          <label for="password" class="label-text">Password</label>
+          <p-password
+            id="password"
+            formControlName="password"
+            [feedback]="false"
+            [toggleMask]="true"
+            placeholder="••••••••"
+            styleClass="w-full"
+            inputStyleClass="w-full form-input"
+            [class.ng-invalid]="isControlInvalid('password')"
+            [class.ng-dirty]="isControlInvalid('password')"
+          />
+          <div *ngIf="isControlInvalid('password')" class="error-container">
+            <span *ngIf="loginForm.get('password')?.errors?.['required']" class="text-xs error-text">
+              Password is required.
+            </span>
+            <span *ngIf="loginForm.get('password')?.errors?.['minlength']" class="text-xs error-text">
+              Password must be at least 6 characters long.
+            </span>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <p-button
+          type="submit"
+          label="Sign in"
+          severity="contrast"
+          styleClass="w-full mt-2"
+        />
+
+        <!-- Secondary Link -->
+        <div class="text-center mt-3">
+          <span class="hint-text text-sm">Don't have an account? </span>
+          <a routerLink="/auth/signup" class="nav-link text-sm font-semibold">Sign up</a>
+        </div>
+
+      </form>
+    </div>
+
+  </div>
+</div>
+
