@@ -1,73 +1,86 @@
-/* ── Dark Theme Colors (PrimeFlex handles everything else) ── */
-
-.landing-bg {
-  background: #0d1117;
+.landing-glass-card {
+  max-width: 670px;
 }
 
-.landing-card {
-  max-width: 720px;
-  background: #161b22;
-  border: 1px solid #30363d;
-  border-radius: 14px;
-  overflow: hidden;
+
+.brand-icon-wrapper {
+  background: rgba(99, 102, 241, 0.15);
+  border: 1px solid rgba(99, 102, 241, 0.3);
 }
 
-.nav-border {
-  border-bottom: 1px solid #30363d;
-}
-
-.brand-name {
-  color: #e6edf3;
+.ai-badge {
+  background: rgba(99, 102, 241, 0.12);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  backdrop-filter: blur(8px);
 }
 
 .hero-title {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #e6edf3;
-  line-height: 1.4;
+  font-size: 2.1rem;
+  font-weight: 800;
+  color: #f8fafc;
+  line-height: 1.25;
+  letter-spacing: -0.03em;
   margin: 0;
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #a5b4fc 0%, #6366f1 50%, #818cf8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .hero-subtitle {
-  color: #8b949e;
-  max-width: 420px;
+  font-size: 0.95rem;
+  line-height: 1.6;
   margin: 0;
-}
-
-.search-field {
-  width: 100%;
-  max-width: 500px;
 }
 
 .search-input {
-  background: #21262d !important;
-  border-color: #30363d !important;
-  color: #e6edf3 !important;
+  background: rgba(15, 23, 42, 0.75) !important;
+  border: 1px solid rgba(99, 102, 241, 0.3) !important;
+  border-radius: 10px !important;
+  transition: all 0.3s ease !important;
+  color: #f8fafc !important;
+}
+
+.search-input:focus {
+  border-color: #6366f1 !important;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3) !important;
 }
 
 .search-input::placeholder {
-  color: #484f58 !important;
-}
-
-.hint-text {
-  color: #8b949e;
+  color: #64748b !important;
 }
 
 .section-divider {
-  border-top: 1px solid #30363d;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.feature-item {
-  max-width: 185px;
+.feature-card {
+  background: rgba(15, 23, 42, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 10px;
+  transition: all 0.25s ease;
 }
 
-.feature-title {
-  color: #e6edf3;
-  font-size: 0.9rem;
-  margin: 0;
+.feature-card:hover {
+  background: rgba(99, 102, 241, 0.12);
+  border-color: rgba(99, 102, 241, 0.25);
 }
 
-.feature-desc {
-  color: #8b949e;
-  margin: 0;
+.icon-bubble {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: rgba(99, 102, 241, 0.15);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  flex-shrink: 0;
 }
+
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 1.65rem;
+  }
+}
+
+

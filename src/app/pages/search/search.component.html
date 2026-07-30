@@ -1,0 +1,32 @@
+<div class="search-page-bg min-h-screen">
+
+  <!-- ── Top Navbar ─────────────────────────────────────────── -->
+  <nav class="flex align-items-center justify-content-between px-5 py-3 top-nav">
+    <div class="flex align-items-center gap-2">
+      <i class="pi pi-calendar text-primary text-xl"></i>
+      <span class="text-xl font-bold brand-name">EventFind</span>
+    </div>
+    <p-iconfield class="search-bar-field">
+      <p-inputicon styleClass="pi pi-search" />
+      <input
+        pInputText
+        type="text"
+        placeholder="Describe what you're looking for..."
+        class="w-full nav-search-input"
+      />
+    </p-iconfield>
+    <div class="flex align-items-center gap-2">
+      <p-button icon="pi pi-bell" [rounded]="true" [text]="true" severity="secondary" />
+      <div class="user-avatar flex align-items-center justify-content-center">
+        <i class="pi pi-user" style="font-size: 0.8rem;"></i>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── Main Content ───────────────────────────────────────── -->
+  <main class="search-page-content">
+    <!-- Recommended Events Section -->
+    <app-recommended-events />
+  </main>
+
+</div>

@@ -1,0 +1,55 @@
+/* ── Page Background ────────────────────────────────────────── */
+.search-page-bg {
+  background: #0d1117;
+}
+
+/* ── Top Navbar ─────────────────────────────────────────────── */
+.top-nav {
+  background: #161b22;
+  border-bottom: 1px solid #30363d;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  gap: 1rem;
+}
+
+.brand-name {
+  color: #e6edf3;
+  white-space: nowrap;
+}
+
+.search-bar-field {
+  flex: 1;
+  max-width: 480px;
+}
+
+.nav-search-input {
+  background: #0d1117 !important;
+  border-color: #30363d !important;
+  color: #e6edf3 !important;
+  border-radius: 8px;
+}
+
+.nav-search-input::placeholder {
+  color: #484f58 !important;
+}
+
+.user-avatar {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7c3aed, #4f46e5);
+  color: #fff;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.user-avatar:hover {
+  opacity: 0.85;
+}
+
+/* ── Main Content ───────────────────────────────────────────── */
+.search-page-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}

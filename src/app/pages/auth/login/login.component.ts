@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth.service';
+import { ToastService } from '../../../core/services/toast.service';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
@@ -28,7 +29,8 @@ export class LoginComponent {
   constructor(
     private readonly fb: FormBuilder,
     private readonly router: Router,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private readonly toastService: ToastService
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -45,18 +47,29 @@ export class LoginComponent {
 
     if (this.loginForm.valid) {
       const loginData = this.loginForm.value;
-      
+
       this.authService.login(loginData).subscribe({
         next: (response) => {
-          // Assuming the token is returned in response.token
-          if (response && response.token) {
-            sessionStorage.setItem('token', response.token);
+          if (response && response.success) {
+            this.toastService.success(response.message || 'Logged in successfully!');
+
+            if (response.data && response.data.token) {
+              sessionStorage.setItem('token', response.data.token);
+            }
+
+            const isOnBoardingCompleted = response.data?.isOnBoardingCompleted ?? false;
+            if (!isOnBoardingCompleted) {
+              this.router.navigate(['/onboarding']);
+            } else {
+              this.router.navigate(['/search']);
+            }
+          } else {
+            this.toastService.error(response?.message || 'Login failed.');
           }
-          this.router.navigate(['/']);
         },
         error: (error) => {
           console.error('Login failed', error);
-          // Handle error (e.g., show message)
+          this.toastService.error(error?.error?.message || 'Failed to login. Please check your credentials.');
         }
       });
     }

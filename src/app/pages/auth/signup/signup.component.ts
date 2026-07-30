@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth.service';
+import { ToastService } from '../../../core/services/toast.service';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
@@ -33,7 +34,8 @@ export class SignupComponent implements OnInit {
   constructor(
     private readonly fb: FormBuilder,
     private readonly router: Router,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private readonly toastService: ToastService
   ) {}
 
   ngOnInit(): void {
@@ -58,11 +60,17 @@ export class SignupComponent implements OnInit {
       };
       
       this.authService.register(registrationPayload).subscribe({
-        next: () => {
-          this.router.navigate(['/auth/login']);
+        next: (response: any) => {
+          if (response && response.success) {
+            this.toastService.success(response.message || 'Registered successfully! Please log in.');
+            this.router.navigate(['/auth/login']);
+          } else {
+            this.toastService.error(response?.message || 'Registration failed. Please try again.');
+          }
         },
         error: (error) => {
           console.error('Registration failed', error);
+          this.toastService.error(error?.error?.message || 'Registration failed. Please try again.');
         }
       });
     }

@@ -1,47 +1,49 @@
-.signup-bg {
-  background: #0d1117;
-}
-
-.signup-card {
+.auth-glass-card {
   max-width: 480px;
-  background: #161b22;
-  border: 1px solid #30363d;
-  border-radius: 14px;
-  overflow: hidden;
 }
 
-.logo-header {
-  border-bottom: 1px solid #30363d;
-}
-
-.brand-name {
-  color: #e6edf3;
+.brand-icon-wrapper {
+  background: rgba(99, 102, 241, 0.15);
+  border: 1px solid rgba(99, 102, 241, 0.3);
 }
 
 .auth-title {
-  color: #e6edf3;
-  font-weight: 700;
-  font-size: 1.5rem;
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: #f8fafc;
+  letter-spacing: -0.03em;
+  margin: 0;
 }
 
 .auth-subtitle {
-  color: #8b949e;
+  color: #94a3b8;
+  font-size: 0.9rem;
+  margin: 0;
 }
 
-.label-text {
-  color: #c9d1d9;
-  font-size: 0.85rem;
-  font-weight: 500;
+.field-label {
+  color: #94a3b8;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 
 .form-input {
-  background: #21262d !important;
-  border-color: #30363d !important;
-  color: #e6edf3 !important;
+  background: rgba(15, 23, 42, 0.7) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 10px !important;
+  color: #f8fafc !important;
+  transition: all 0.25s ease !important;
+}
+
+.form-input:focus {
+  border-color: #6366f1 !important;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25) !important;
 }
 
 .form-input::placeholder {
-  color: #484f58 !important;
+  color: #475569 !important;
 }
 
 .error-container {
@@ -49,18 +51,16 @@
 }
 
 .error-text {
-  color: #f85149;
-}
-
-.hint-text {
-  color: #8b949e;
+  color: #f87171;
 }
 
 .nav-link {
-  color: #58a6ff;
+  color: #818cf8;
   text-decoration: none;
+  transition: color 0.2s ease;
 }
 
 .nav-link:hover {
+  color: #a5b4fc;
   text-decoration: underline;
 }

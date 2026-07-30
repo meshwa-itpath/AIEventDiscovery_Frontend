@@ -1,0 +1,82 @@
+<div class="page-bg-overlay">
+  <div class="onboarding-glass-card glass-card w-full overflow-hidden">
+
+    <!-- ── Header / Logo ── -->
+    <div class="flex align-items-center justify-content-between px-5 py-4 glass-nav cursor-pointer" routerLink="/">
+      <div class="flex align-items-center gap-3">
+        <div class="brand-icon-wrapper flex align-items-center justify-content-center border-round-xl p-2">
+          <i class="pi pi-sparkles text-indigo-400 text-lg"></i>
+        </div>
+        <span class="text-xl font-bold text-slate-100" style="letter-spacing:-0.02em">EventFind AI</span>
+      </div>
+      <i class="pi pi-home text-slate-400"></i>
+    </div>
+
+    <!-- ── Body ── -->
+    <div class="px-5 pt-5 pb-6">
+
+      <div class="mb-5">
+        <div class="inline-flex align-items-center justify-content-center border-round-xl p-2 mb-3 icon-bubble-header">
+          <i class="pi pi-user-plus text-indigo-400 text-lg"></i>
+        </div>
+        <h2 class="auth-title mb-1">Tell us about yourself</h2>
+        <p class="auth-subtitle">Help our AI find events matched to your vibe. Totally optional.</p>
+      </div>
+
+      <!-- Role Section -->
+      <div class="mb-4">
+        <h3 class="field-label mb-3">What's your primary role?</h3>
+        <div class="flex flex-wrap gap-2">
+          <button
+            type="button"
+            class="pill-btn"
+            *ngFor="let role of roles"
+            [class.selected]="selectedRole === role"
+            (click)="selectRole(role)"
+          >
+            {{ role }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Tech Section -->
+      <div class="mb-5">
+        <h3 class="field-label mb-3">
+          Tech interests <span class="font-normal normal-case text-slate-500">(pick any)</span>
+        </h3>
+        <div class="flex flex-wrap gap-2">
+          <button
+            type="button"
+            class="pill-btn"
+            *ngFor="let tech of technologies"
+            [class.selected]="isTechSelected(tech)"
+            (click)="toggleTech(tech)"
+          >
+            {{ tech }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex align-items-center gap-3 pt-3 border-top-1" style="border-color: rgba(255,255,255,0.08)">
+        <button
+          type="button"
+          class="skip-btn"
+          (click)="onSkip()"
+          [disabled]="isSubmitting"
+        >
+          Skip for now
+        </button>
+        <button
+          type="button"
+          class="continue-btn glow-btn-primary flex align-items-center gap-2"
+          (click)="onContinue()"
+          [disabled]="isSubmitting"
+        >
+          Continue <i class="pi pi-arrow-right text-xs"></i>
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>

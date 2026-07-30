@@ -1,121 +1,110 @@
-<div class="signup-bg flex align-items-center justify-content-center min-h-screen p-4">
-  <div class="signup-card w-full">
-    
+<div class="page-bg-overlay">
+  <div class="auth-glass-card glass-card w-full overflow-hidden">
+
     <!-- ── Header / Logo ── -->
-    <div class="flex align-items-center gap-2 px-5 py-3 logo-header cursor-pointer" routerLink="/">
-      <i class="pi pi-calendar text-primary text-xl"></i>
-      <span class="text-xl font-bold brand-name">EventFind</span>
+    <div class="flex align-items-center justify-content-between px-5 py-4 glass-nav cursor-pointer" routerLink="/">
+      <div class="flex align-items-center gap-3">
+        <div class="brand-icon-wrapper flex align-items-center justify-content-center border-round-xl p-2">
+          <i class="pi pi-sparkles text-indigo-400 text-lg"></i>
+        </div>
+        <span class="text-xl font-bold text-slate-100" style="letter-spacing:-0.02em">EventFind AI</span>
+      </div>
+      <i class="pi pi-home text-slate-400"></i>
     </div>
 
     <!-- ── Form Body ── -->
-    <div class="px-5 py-5">
-      <div class="text-center mb-4">
+    <div class="px-5 pt-5 pb-6">
+      <div class="mb-4">
         <h2 class="auth-title mb-1">Create account</h2>
-        <p class="auth-subtitle text-sm">Start discovering events today</p>
+        <p class="auth-subtitle">Start discovering personalized events today</p>
       </div>
 
       <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="flex flex-column gap-3">
-        
-        <!-- First Name & Last Name (2 Column Flex Row) -->
-        <div class="flex gap-3 flex-column sm:flex-row">
-          <!-- First Name -->
+
+        <!-- Name Row -->
+        <div class="flex gap-3">
           <div class="flex flex-column gap-1 flex-1">
-            <label for="firstName" class="label-text">First Name</label>
+            <label for="firstName" class="field-label">First Name</label>
             <input
               pInputText
               id="firstName"
               type="text"
               formControlName="firstName"
               placeholder="John"
-              class="w-full form-input"
+              class="w-full form-input py-3 px-3"
               [class.ng-invalid]="isControlInvalid('firstName')"
               [class.ng-dirty]="isControlInvalid('firstName')"
             />
             <div *ngIf="isControlInvalid('firstName')" class="error-container">
-              <span *ngIf="signupForm.get('firstName')?.errors?.['required']" class="text-xs error-text">
-                Required.
-              </span>
+              <span *ngIf="signupForm.get('firstName')?.errors?.['required']" class="text-xs error-text">Required.</span>
             </div>
           </div>
-
-          <!-- Last Name -->
           <div class="flex flex-column gap-1 flex-1">
-            <label for="lastName" class="label-text">Last Name</label>
+            <label for="lastName" class="field-label">Last Name</label>
             <input
               pInputText
               id="lastName"
               type="text"
               formControlName="lastName"
               placeholder="Doe"
-              class="w-full form-input"
+              class="w-full form-input py-3 px-3"
               [class.ng-invalid]="isControlInvalid('lastName')"
               [class.ng-dirty]="isControlInvalid('lastName')"
             />
             <div *ngIf="isControlInvalid('lastName')" class="error-container">
-              <span *ngIf="signupForm.get('lastName')?.errors?.['required']" class="text-xs error-text">
-                Required.
-              </span>
+              <span *ngIf="signupForm.get('lastName')?.errors?.['required']" class="text-xs error-text">Required.</span>
             </div>
           </div>
         </div>
 
-        <!-- Email Input -->
+        <!-- Email -->
         <div class="flex flex-column gap-1">
-          <label for="email" class="label-text">Email Address</label>
+          <label for="email" class="field-label">Email Address</label>
           <input
             pInputText
             id="email"
             type="email"
             formControlName="email"
             placeholder="you@example.com"
-            class="w-full form-input"
+            class="w-full form-input py-3 px-3"
             [class.ng-invalid]="isControlInvalid('email')"
             [class.ng-dirty]="isControlInvalid('email')"
           />
           <div *ngIf="isControlInvalid('email')" class="error-container">
-            <span *ngIf="signupForm.get('email')?.errors?.['required']" class="text-xs error-text">
-              Email is required.
-            </span>
-            <span *ngIf="signupForm.get('email')?.errors?.['email']" class="text-xs error-text">
-              Please enter a valid email address.
-            </span>
+            <span *ngIf="signupForm.get('email')?.errors?.['required']" class="text-xs error-text">Email is required.</span>
+            <span *ngIf="signupForm.get('email')?.errors?.['email']" class="text-xs error-text">Please enter a valid email address.</span>
           </div>
         </div>
 
-        <!-- Password Input -->
+        <!-- Password -->
         <div class="flex flex-column gap-1">
-          <label for="password" class="label-text">Password</label>
+          <label for="password" class="field-label">Password</label>
           <p-password
             id="password"
             formControlName="password"
             [toggleMask]="true"
             placeholder="Min. 8 characters"
             styleClass="w-full"
-            inputStyleClass="w-full form-input"
+            inputStyleClass="w-full form-input py-3 px-3"
             [class.ng-invalid]="isControlInvalid('password')"
             [class.ng-dirty]="isControlInvalid('password')"
           />
           <div *ngIf="isControlInvalid('password')" class="error-container">
-            <span *ngIf="signupForm.get('password')?.errors?.['required']" class="text-xs error-text">
-              Password is required.
-            </span>
-            <span *ngIf="signupForm.get('password')?.errors?.['minlength']" class="text-xs error-text">
-              Password must be at least 8 characters long.
-            </span>
+            <span *ngIf="signupForm.get('password')?.errors?.['required']" class="text-xs error-text">Password is required.</span>
+            <span *ngIf="signupForm.get('password')?.errors?.['minlength']" class="text-xs error-text">Password must be at least 8 characters.</span>
           </div>
         </div>
 
-        <!-- Submit Button -->
+        <!-- Submit -->
         <p-button
           type="submit"
           label="Create account"
-          severity="contrast"
-          styleClass="w-full mt-2"
+          styleClass="glow-btn-primary w-full py-3 font-semibold text-base mt-1"
         />
 
-        <!-- Secondary Link -->
-        <div class="text-center mt-2">
-          <span class="hint-text text-sm">Already have an account? </span>
+        <!-- Link -->
+        <div class="text-center">
+          <span class="text-sm text-slate-400">Already have an account? </span>
           <a routerLink="/auth/login" class="nav-link text-sm font-semibold">Log in</a>
         </div>
 
@@ -124,4 +113,3 @@
 
   </div>
 </div>
-
