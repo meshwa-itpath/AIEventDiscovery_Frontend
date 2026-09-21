@@ -25,9 +25,9 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     catchError((error: HttpErrorResponse) => {
       // If the error is 401 Unauthorized, redirect to the login page
       if (error.status === 401) {
-        // You might want to clear the session storage here as well
-        sessionStorage.removeItem('token');
-        router.navigate(['/login']); // Assuming '/login' is the route to your login page
+        // Clear all session data so stale flags (e.g. isOnBoardingCompleted) don't linger
+        sessionStorage.clear();
+        router.navigate(['/auth/login']);
       }
       return throwError(() => error);
     })

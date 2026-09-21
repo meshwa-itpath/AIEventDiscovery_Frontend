@@ -39,64 +39,36 @@
   font-size: 0.75rem;
 }
 
-/* ── Cards Row (chevrons + scroll container) ────────────────── */
-.cards-row {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
+/* ── Events Grid (4 cards on a row) ─────────────────────────── */
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+  width: 100%;
 }
 
-/* ── Chevron Navigation Buttons ─────────────────────────────── */
-.nav-chevron {
-  flex-shrink: 0;
-  width: 2.25rem;
-  height: 2.25rem;
-  border-radius: 50%;
-  background: #161b22;
-  border: 1px solid #30363d;
-  color: #8b949e;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
-  outline: none;
-  font-size: 0.85rem;
-  z-index: 2;
+@media (max-width: 1280px) {
+  .events-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
-.nav-chevron:hover {
-  background: rgba(124, 58, 237, 0.12);
-  border-color: rgba(124, 58, 237, 0.45);
-  color: #a5b4fc;
-  transform: scale(1.08);
+@media (max-width: 960px) {
+  .events-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
-.nav-chevron.hidden {
-  opacity: 0;
-  pointer-events: none;
+@media (max-width: 600px) {
+  .events-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
-/* ── Horizontal Scroll Container ────────────────────────────── */
-.scroll-container {
-  flex: 1;
-  display: flex;
-  gap: 1rem;
-  overflow-x: auto;
-  padding-bottom: 0.75rem;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-  scroll-behavior: smooth;
-}
-
-.scroll-container::-webkit-scrollbar {
-  display: none;
-}
-
-/* ── Card Wrapper: exactly 4 per visible row ────────────────── */
+/* ── Card Wrapper ───────────────────────────────────────────── */
 .event-card-wrapper {
-  flex: 0 0 calc(25% - 0.75rem);
-  min-width: 230px;
+  width: 100%;
+  display: flex;
 }
 
 /* ── Skeleton Card ──────────────────────────────────────────── */
@@ -106,130 +78,31 @@
   border-radius: 14px;
   padding: 1.1rem;
   min-height: 340px;
+  width: 100%;
   display: flex;
   flex-direction: column;
 }
 
-/* ── Event Card ─────────────────────────────────────────────── */
-.event-card {
-  background: #161b22;
-  border: 1px solid #30363d;
-  border-radius: 14px;
-  padding: 1.1rem;
-  min-height: 340px;
-  display: flex;
-  flex-direction: column;
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+/* ── Load More Button ───────────────────────────────────────── */
+.load-more-container {
+  width: 100%;
 }
 
-.event-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(124, 58, 237, 0.25);
-  border-color: rgba(124, 58, 237, 0.4);
+:host ::ng-deep .load-more-btn.p-button {
+  border-radius: 12px !important;
+  padding: 0.65rem 2rem !important;
+  font-size: 0.88rem !important;
+  border-color: #30363d !important;
+  color: #c9d1d9 !important;
+  background: #161b22 !important;
+  transition: all 0.2s ease !important;
 }
 
-/* ── Match Tag ──────────────────────────────────────────────── */
-:host ::ng-deep .match-tag.p-tag {
-  font-size: 0.7rem;
-  font-weight: 700;
-  padding: 0.2rem 0.55rem;
-  border-radius: 999px;
-}
-
-/* ── Event Type Badge ───────────────────────────────────────── */
-.event-type-badge {
-  font-size: 0.68rem;
-  color: #8b949e;
-  background: #21262d;
-  border: 1px solid #30363d;
-  border-radius: 999px;
-  padding: 0.12rem 0.5rem;
-  font-weight: 500;
-}
-
-/* ── Title ──────────────────────────────────────────────────── */
-.event-title {
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: #e6edf3;
-  margin: 0;
-  line-height: 1.4;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-/* ── Description ────────────────────────────────────────────── */
-.event-description {
-  font-size: 0.78rem;
-  color: #8b949e;
-  margin: 0;
-  line-height: 1.55;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  flex-grow: 1;
-}
-
-/* ── Meta Rows ──────────────────────────────────────────────── */
-.meta-icon {
-  font-size: 0.72rem;
-  color: #6e7681;
-  flex-shrink: 0;
-}
-
-.meta-text {
-  font-size: 0.75rem;
-  color: #8b949e;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* ── Chips ──────────────────────────────────────────────────── */
-.chip {
-  font-size: 0.68rem;
-  font-weight: 600;
-  border-radius: 999px;
-  padding: 0.18rem 0.5rem;
-  display: inline-flex;
-  align-items: center;
-}
-
-.chip-level {
-  background: rgba(251, 188, 5, 0.12);
-  border: 1px solid rgba(251, 188, 5, 0.25);
-  color: #fbbf24;
-}
-
-.chip-category {
-  background: rgba(79, 70, 229, 0.12);
-  border: 1px solid rgba(79, 70, 229, 0.3);
-  color: #818cf8;
-}
-
-.chip-tech {
-  background: #21262d;
-  border: 1px solid #30363d;
-  color: #8b949e;
-}
-
-/* ── Card Footer ────────────────────────────────────────────── */
-.card-footer {
-  border-top: 1px solid #21262d;
-}
-
-.rating-value {
-  font-size: 0.82rem;
-  font-weight: 700;
-  color: #e6edf3;
-}
-
-:host ::ng-deep .view-btn.p-button {
-  font-size: 0.75rem;
-  padding: 0.3rem 0.7rem;
+:host ::ng-deep .load-more-btn.p-button:hover {
+  background: rgba(124, 58, 237, 0.15) !important;
+  border-color: rgba(124, 58, 237, 0.5) !important;
+  color: #a5b4fc !important;
+  transform: translateY(-1px);
 }
 
 /* ── Error State ────────────────────────────────────────────── */

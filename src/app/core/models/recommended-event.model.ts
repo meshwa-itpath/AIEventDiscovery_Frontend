@@ -17,10 +17,34 @@ export interface RecommendedEvent {
   endDate: string;
   rating: number;
   similarityScore: number;
+  explanation?: string;
+}
+
+export interface PaginationMeta {
+  page: number;
+  pageSize: number;
+  totalCount: number;
+  totalPages: number;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
 }
 
 export interface RecommendedEventsResponse {
   success: boolean;
   message: string;
   data: RecommendedEvent[];
+  pagination?: PaginationMeta;
+}
+
+export interface SearchEventsResponse {
+  success: boolean;
+  message: string;
+  data: RecommendedEvent[];
+  pagination?: PaginationMeta;
+}
+
+export interface EventDetailResponse {
+  success: boolean;
+  message: string;
+  data: RecommendedEvent;
 }

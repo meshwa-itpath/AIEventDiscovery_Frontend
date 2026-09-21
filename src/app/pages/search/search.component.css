@@ -50,6 +50,70 @@
 
 /* ── Main Content ───────────────────────────────────────────── */
 .search-page-content {
-  max-width: 1200px;
+  /* max-width: 1200px; */
   margin: 0 auto;
+}
+
+/* ── Events Grid (4 cards per row — mirrors recommended-events) ── */
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+  width: 100%;
+}
+
+@media (max-width: 1280px) {
+  .events-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 960px) {
+  .events-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .events-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.event-card-wrapper {
+  width: 100%;
+  display: flex;
+}
+
+/* ── Filter Drawer ──────────────────────────────────────────── */
+::ng-deep .filter-drawer {
+  background: #161b22;
+  border-left: 1px solid #30363d;
+  color: #e6edf3;
+}
+
+::ng-deep .filter-drawer .p-drawer-header {
+  background: #161b22 !important;
+  border-bottom: 1px solid #30363d !important;
+  color: #e6edf3;
+  padding: 1rem 1rem 0rem 1rem !important;
+}
+
+::ng-deep .filter-drawer .p-drawer-content {
+  padding: 1rem 1rem 0rem 1rem !important;
+  background: #161b22;
+}
+
+::ng-deep .filter-drawer .p-drawer-header .p-drawer-title {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+::ng-deep .filter-drawer .p-drawer-header-icon {
+  color: #8b949e;
+}
+
+::ng-deep .filter-drawer .p-drawer-header-icon:hover {
+  background: rgba(139, 148, 158, 0.1);
+  color: #e6edf3;
 }

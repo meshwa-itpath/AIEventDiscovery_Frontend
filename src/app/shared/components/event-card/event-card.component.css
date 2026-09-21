@@ -1,0 +1,166 @@
+/* ── Event Card ─────────────────────────────────────────────── */
+.event-card {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 14px;
+  padding: 1.1rem;
+  min-height: 340px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+/* Compact mode: let the card shrink to its content height */
+.event-card.compact {
+  min-height: auto;
+}
+
+.event-card:hover {
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(124, 58, 237, 0.25);
+  border-color: rgba(124, 58, 237, 0.4);
+}
+
+/* ── Match Tag ──────────────────────────────────────────────── */
+:host ::ng-deep .match-tag.p-tag {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+}
+
+/* ── Event Type Badge ───────────────────────────────────────── */
+.event-type-badge {
+  font-size: 0.68rem;
+  color: #8b949e;
+  background: #21262d;
+  border: 1px solid #30363d;
+  border-radius: 999px;
+  padding: 0.12rem 0.5rem;
+  font-weight: 500;
+}
+
+/* ── Title ──────────────────────────────────────────────────── */
+.event-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #e6edf3;
+  margin: 0;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ── Description ────────────────────────────────────────────── */
+.event-description {
+  font-size: 0.78rem;
+  color: #8b949e;
+  margin: 0;
+  line-height: 1.55;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  flex-grow: 1;
+}
+
+/* ── Meta Rows ──────────────────────────────────────────────── */
+.meta-icon {
+  font-size: 0.72rem;
+  color: #6e7681;
+  flex-shrink: 0;
+}
+
+.meta-text {
+  font-size: 0.75rem;
+  color: #8b949e;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Chips ──────────────────────────────────────────────────── */
+.chip {
+  font-size: 0.68rem;
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 0.18rem 0.5rem;
+  display: inline-flex;
+  align-items: center;
+}
+
+.chip-level {
+  background: rgba(251, 188, 5, 0.12);
+  border: 1px solid rgba(251, 188, 5, 0.25);
+  color: #fbbf24;
+}
+
+.chip-category {
+  background: rgba(79, 70, 229, 0.12);
+  border: 1px solid rgba(79, 70, 229, 0.3);
+  color: #818cf8;
+}
+
+.chip-tech {
+  background: #21262d;
+  border: 1px solid #30363d;
+  color: #8b949e;
+}
+
+/* Overflow badge: shows +N when tech chips are clipped */
+.chip-extra {
+  background: rgba(99, 102, 241, 0.1);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  color: #a5b4fc;
+  font-weight: 700;
+  cursor: default;
+}
+
+/* ── Tech Overflow Popover ─────────────────────────────────── */
+:host ::ng-deep .tech-popover.p-popover {
+  background: #21262d;
+  border: 1px solid #30363d;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+:host ::ng-deep .tech-popover.p-popover .p-popover-content {
+  padding: 0;
+}
+
+:host ::ng-deep .tech-popover.p-popover::before,
+:host ::ng-deep .tech-popover.p-popover::after {
+  display: none;
+}
+
+.tech-popover-content {
+  padding: 0.75rem;
+  max-width: 220px;
+}
+
+.tech-popover-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #6e7681;
+  margin: 0 0 0.5rem 0;
+}
+
+/* ── Card Footer ────────────────────────────────────────────── */
+.card-footer {
+  border-top: 1px solid #21262d;
+}
+
+.rating-value {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #e6edf3;
+}
+
+:host ::ng-deep .view-btn.p-button {
+  font-size: 0.75rem;
+  padding: 0.3rem 0.7rem;
+}

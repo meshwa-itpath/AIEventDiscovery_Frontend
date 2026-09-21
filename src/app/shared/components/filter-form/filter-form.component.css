@@ -1,0 +1,100 @@
+/* .filter-form-container {
+  padding-bottom: 2rem;
+} */
+
+.filter-section-title {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #a5b4fc;
+  margin-bottom: 0.5rem;
+}
+
+.filter-option-label {
+  font-size: 0.85rem;
+  color: #c9d1d9;
+  cursor: pointer;
+}
+
+:host ::ng-deep .filter-divider.p-divider {
+  margin: 1.2rem 0;
+}
+
+:host ::ng-deep .filter-divider.p-divider .p-divider-content {
+  background: transparent;
+}
+
+:host ::ng-deep .filter-divider.p-divider.p-divider-horizontal:before {
+  border-top: 1px solid #30363d;
+}
+
+/* Form controls dark mode overrides */
+:host ::ng-deep .p-inputtext,
+:host ::ng-deep .p-datepicker .p-inputtext,
+:host ::ng-deep .p-multiselect {
+  background: #0d1117;
+  border-color: #30363d;
+  color: #e6edf3;
+  border-radius: 6px;
+}
+
+:host ::ng-deep .p-inputtext::placeholder {
+  color: #484f58;
+}
+
+:host ::ng-deep .p-multiselect-label {
+  color: #e6edf3;
+}
+
+:host ::ng-deep .p-checkbox .p-checkbox-box {
+  background: #0d1117;
+  border-color: #30363d;
+}
+
+:host ::ng-deep .p-checkbox .p-checkbox-box.p-highlight {
+  background: #7c3aed;
+  border-color: #7c3aed;
+}
+
+:host ::ng-deep .p-checkbox .p-checkbox-box.p-highlight .p-checkbox-icon {
+  color: #ffffff;
+}
+
+:host ::ng-deep .rating-chip {
+  background: #21262d;
+  border: 1px solid #30363d;
+  color: #e6edf3;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  height: auto;
+}
+
+:host ::ng-deep .rating-chip .pi-star-fill {
+  color: #eab308;
+  margin-right: 0.25rem;
+}
+
+:host ::ng-deep .p-slider {
+  background: #30363d;
+}
+
+:host ::ng-deep .p-slider .p-slider-range {
+  background: #7c3aed;
+}
+
+:host ::ng-deep .p-slider .p-slider-handle {
+  border-color: #7c3aed;
+  background: #0d1117;
+}
+
+/* Sticky Footer */
+.filter-footer {
+  position: sticky;
+  bottom: 0;
+  background: #161b22; /* Matches drawer background */
+  border-top: 1px solid #30363d;
+  padding: 1rem;
+  margin: 1rem -1rem 0 -1rem; /* Negative margin to span full width of drawer padding */
+  z-index: 10;
+}

@@ -57,7 +57,10 @@ export class LoginComponent {
               sessionStorage.setItem('token', response.data.token);
             }
 
+            // Persist the onboarding flag so route guards can read it without an extra API call
             const isOnBoardingCompleted = response.data?.isOnBoardingCompleted ?? false;
+            sessionStorage.setItem('isOnBoardingCompleted', String(isOnBoardingCompleted));
+
             if (!isOnBoardingCompleted) {
               this.router.navigate(['/onboarding']);
             } else {

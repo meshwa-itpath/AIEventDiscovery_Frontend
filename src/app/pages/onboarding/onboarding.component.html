@@ -1,5 +1,5 @@
-<div class="page-bg-overlay">
-  <div class="onboarding-glass-card glass-card w-full overflow-hidden">
+<div class="page-bg-overlay onboarding-page-overlay">
+  <div class="onboarding-glass-card glass-card overflow-hidden">
 
     <!-- ── Header / Logo ── -->
     <div class="flex align-items-center justify-content-between px-5 py-4 glass-nav cursor-pointer" routerLink="/">
@@ -13,69 +13,102 @@
     </div>
 
     <!-- ── Body ── -->
-    <div class="px-5 pt-5 pb-6">
+    <div class="px-5 pt-4 pb-5">
 
-      <div class="mb-5">
-        <div class="inline-flex align-items-center justify-content-center border-round-xl p-2 mb-3 icon-bubble-header">
+      <div class="mb-4">
+        <div class="inline-flex align-items-center justify-content-center border-round-xl p-2 mb-2 icon-bubble-header">
           <i class="pi pi-user-plus text-indigo-400 text-lg"></i>
         </div>
-        <h2 class="auth-title mb-1">Tell us about yourself</h2>
-        <p class="auth-subtitle">Help our AI find events matched to your vibe. Totally optional.</p>
+        <h2 class="auth-title mb-1">Personalize Your Experience</h2>
+        <p class="auth-subtitle">Help our AI discover events matched to your engineering focus.</p>
       </div>
 
-      <!-- Role Section -->
-      <div class="mb-4">
-        <h3 class="field-label mb-3">What's your primary role?</h3>
-        <div class="flex flex-wrap gap-2">
-          <button
-            type="button"
-            class="pill-btn"
-            *ngFor="let role of roles"
-            [class.selected]="selectedRole === role"
-            (click)="selectRole(role)"
-          >
-            {{ role }}
-          </button>
+      <!-- ── Reusable Stepper Component ── -->
+      <app-stepper
+        [steps]="steps"
+        [currentStepIndex]="currentStepIndex"
+        [isNextDisabled]="isNextDisabled"
+        [isSubmitting]="isSubmitting"
+        (stepChange)="onStepChange($event)"
+        (next)="onNext()"
+        (back)="onBack()"
+        (finish)="onFinish()"
+      >
+
+        <!-- Step 1: Role / Specialization -->
+        <div class="step-view-card" *ngIf="currentStepIndex === 0">
+          <div class="flex align-items-center justify-content-between mb-3">
+            <div>
+              <h3 class="field-title">What is your primary role?</h3>
+              <p class="field-caption">Select the role that best defines your core persona</p>
+            </div>
+            <span class="selection-pill-indicator">Single select</span>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <button
+              type="button"
+              class="pill-btn"
+              *ngFor="let role of roles"
+              [class.selected]="selectedRole === role"
+              (click)="selectRole(role)"
+            >
+              <i class="pi pi-check text-xs mr-1" *ngIf="selectedRole === role"></i>
+              {{ role }}
+            </button>
+          </div>
         </div>
-      </div>
 
-      <!-- Tech Section -->
-      <div class="mb-5">
-        <h3 class="field-label mb-3">
-          Tech interests <span class="font-normal normal-case text-slate-500">(pick any)</span>
-        </h3>
-        <div class="flex flex-wrap gap-2">
-          <button
-            type="button"
-            class="pill-btn"
-            *ngFor="let tech of technologies"
-            [class.selected]="isTechSelected(tech)"
-            (click)="toggleTech(tech)"
-          >
-            {{ tech }}
-          </button>
+        <!-- Step 2: Primary Stacks -->
+        <div class="step-view-card" *ngIf="currentStepIndex === 1">
+          <div class="flex align-items-center justify-content-between mb-3">
+            <div>
+              <h3 class="field-title">What are your primary stacks?</h3>
+              <p class="field-caption">Languages and runtimes you build with daily</p>
+            </div>
+            <span class="selection-count-badge" [class.has-selection]="selectedStacks.size > 0">
+              {{ selectedStacks.size }} selected
+            </span>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <button
+              type="button"
+              class="pill-btn"
+              *ngFor="let stack of primaryStacks"
+              [class.selected]="isStackSelected(stack)"
+              (click)="toggleStack(stack)"
+            >
+              <i class="pi pi-check text-xs mr-1" *ngIf="isStackSelected(stack)"></i>
+              {{ stack }}
+            </button>
+          </div>
         </div>
-      </div>
 
-      <!-- Actions -->
-      <div class="flex align-items-center gap-3 pt-3 border-top-1" style="border-color: rgba(255,255,255,0.08)">
-        <button
-          type="button"
-          class="skip-btn"
-          (click)="onSkip()"
-          [disabled]="isSubmitting"
-        >
-          Skip for now
-        </button>
-        <button
-          type="button"
-          class="continue-btn glow-btn-primary flex align-items-center gap-2"
-          (click)="onContinue()"
-          [disabled]="isSubmitting"
-        >
-          Continue <i class="pi pi-arrow-right text-xs"></i>
-        </button>
-      </div>
+        <!-- Step 3: Interests & Topics -->
+        <div class="step-view-card" *ngIf="currentStepIndex === 2">
+          <div class="flex align-items-center justify-content-between mb-3">
+            <div>
+              <h3 class="field-title">What topics are you curious about?</h3>
+              <p class="field-caption">Domains and tech you want to explore or attend events for</p>
+            </div>
+            <span class="selection-count-badge" [class.has-selection]="selectedInterests.size > 0">
+              {{ selectedInterests.size }} selected
+            </span>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <button
+              type="button"
+              class="pill-btn"
+              *ngFor="let topic of interestTopics"
+              [class.selected]="isInterestSelected(topic)"
+              (click)="toggleInterest(topic)"
+            >
+              <i class="pi pi-check text-xs mr-1" *ngIf="isInterestSelected(topic)"></i>
+              {{ topic }}
+            </button>
+          </div>
+        </div>
+
+      </app-stepper>
 
     </div>
   </div>

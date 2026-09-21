@@ -1,21 +1,28 @@
-import { Component, inject, OnInit, signal, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common';
+import { Component, inject, OnInit, signal, ViewChild, ElementRef, OnDestroy, HostListener } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
-import { TagModule } from 'primeng/tag';
 import { SkeletonModule } from 'primeng/skeleton';
 import { EventService } from '../../core/services/event.service';
 import { RecommendedEvent } from '../../core/models/recommended-event.model';
+import { EventCardComponent } from '../../shared/components/event-card/event-card.component';
+import { TagModule } from 'primeng/tag';
 
 @Component({
   selector: 'app-recommended-events',
-  imports: [CommonModule, DatePipe, ButtonModule, TagModule, SkeletonModule],
+  imports: [CommonModule, ButtonModule, SkeletonModule, EventCardComponent, TagModule],
   templateUrl: './recommended-events.component.html',
   styleUrl: './recommended-events.component.css',
 })
-export class RecommendedEventsComponent implements OnInit, AfterViewInit {
-  @ViewChild('scrollContainer') scrollContainerRef!: ElementRef<HTMLDivElement>;
+export class RecommendedEventsComponent implements OnInit, OnDestroy {
+  @ViewChild('sentinel') set sentinelElement(element: ElementRef<HTMLDivElement> | undefined) {
+    if (element?.nativeElement) {
+      this.setupIntersectionObserver(element.nativeElement);
+    }
+  }
 
   private eventService = inject(EventService);
+  private router = inject(Router);
 
   events = signal<RecommendedEvent[]>([]);
   isLoading = signal(true);
@@ -23,19 +30,19 @@ export class RecommendedEventsComponent implements OnInit, AfterViewInit {
   hasMore = signal(true);
   error = signal<string | null>(null);
 
-  canScrollLeft = signal(false);
-  canScrollRight = signal(false);
+  private readonly pageSize = 20;
+  private currentPage = 1;
+  private totalPages = 1;
+  private observer?: IntersectionObserver;
 
-  private readonly limit = 10;
-  private offset = 0;
+  skeletonItems = Array(8).fill(null);
 
   ngOnInit(): void {
     this.loadEvents();
   }
 
-  ngAfterViewInit(): void {
-    // update chevron state after view initializes
-    setTimeout(() => this.updateScrollState(), 100);
+  ngOnDestroy(): void {
+    this.observer?.disconnect();
   }
 
   /** Initial load — resets everything */
@@ -43,18 +50,21 @@ export class RecommendedEventsComponent implements OnInit, AfterViewInit {
     this.isLoading.set(true);
     this.error.set(null);
     this.hasMore.set(true);
-    this.offset = 0;
-    this.eventService.getRecommendedEvents(this.limit, this.offset).subscribe({
+    this.currentPage = 1;
+
+    this.eventService.getRecommendedEvents(this.currentPage, this.pageSize).subscribe({
       next: (res) => {
         if (res.success) {
           this.events.set(res.data);
-          this.offset = res.data.length;
-          if (res.data.length === 0) {
-            this.hasMore.set(false);
+          if (res.pagination) {
+            this.totalPages = res.pagination.totalPages;
+            this.hasMore.set(res.pagination.hasNextPage);
+          } else {
+            // Fallback: if no pagination meta, infer from data length
+            this.hasMore.set(res.data.length === this.pageSize);
           }
         }
         this.isLoading.set(false);
-        setTimeout(() => this.updateScrollState(), 50);
       },
       error: () => {
         this.error.set('Failed to load recommended events. Please try again later.');
@@ -65,86 +75,56 @@ export class RecommendedEventsComponent implements OnInit, AfterViewInit {
 
   /** Fetch next page and append */
   loadMore(): void {
-    if (this.isLoadingMore() || !this.hasMore()) return;
+    if (this.isLoadingMore() || !this.hasMore() || this.isLoading()) return;
     this.isLoadingMore.set(true);
-    this.eventService.getRecommendedEvents(this.limit, this.offset).subscribe({
+    this.currentPage++;
+
+    this.eventService.getRecommendedEvents(this.currentPage, this.pageSize).subscribe({
       next: (res) => {
         if (res.success && res.data.length > 0) {
           this.events.update((prev) => [...prev, ...res.data]);
-          this.offset += res.data.length;
-          if (res.data.length < this.limit) {
-            this.hasMore.set(false);
+          if (res.pagination) {
+            this.hasMore.set(res.pagination.hasNextPage);
+          } else {
+            this.hasMore.set(res.data.length === this.pageSize);
           }
         } else {
           this.hasMore.set(false);
+          this.currentPage--; // revert on empty response
         }
         this.isLoadingMore.set(false);
-        setTimeout(() => this.updateScrollState(), 50);
       },
       error: () => {
         this.isLoadingMore.set(false);
+        this.currentPage--; // revert on error
       },
     });
   }
 
-  /** Scroll left by one "page" (= container visible width) */
-  scrollLeft(): void {
-    const el = this.scrollContainerRef?.nativeElement;
-    if (!el) return;
-    el.scrollBy({ left: -el.clientWidth, behavior: 'smooth' });
+  private setupIntersectionObserver(element: HTMLElement): void {
+    this.observer?.disconnect();
+    this.observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && this.hasMore() && !this.isLoadingMore() && !this.isLoading()) {
+          this.loadMore();
+        }
+      },
+      { rootMargin: '250px' }
+    );
+    this.observer.observe(element);
   }
 
-  /**
-   * Scroll right by one "page".
-   * If we're within 2 pages of the end, proactively load more data.
-   */
-  scrollRight(): void {
-    const el = this.scrollContainerRef?.nativeElement;
-    if (!el) return;
-    el.scrollBy({ left: el.clientWidth, behavior: 'smooth' });
-
-    const afterScroll = el.scrollLeft + el.clientWidth;
-    const threshold = el.scrollWidth - el.clientWidth * 2; // 2 pages from end
-    if (afterScroll >= threshold && this.hasMore() && !this.isLoadingMore()) {
+  @HostListener('window:scroll')
+  onWindowScroll(): void {
+    if (!this.hasMore() || this.isLoadingMore() || this.isLoading()) return;
+    const scrollPosition = window.innerHeight + window.scrollY;
+    const documentHeight = document.documentElement.scrollHeight;
+    if (scrollPosition >= documentHeight - 300) {
       this.loadMore();
     }
   }
 
-  /** Called on (scroll) event — keeps chevron visibility in sync */
-  onScroll(): void {
-    this.updateScrollState();
+  viewDetails(id: string): void {
+    this.router.navigate(['/events', id]);
   }
-
-  private updateScrollState(): void {
-    const el = this.scrollContainerRef?.nativeElement;
-    if (!el) return;
-    this.canScrollLeft.set(el.scrollLeft > 10);
-    const atRightEnd = el.scrollLeft + el.clientWidth >= el.scrollWidth - 10;
-    // can scroll right if NOT at right end, OR if there is more data to load
-    this.canScrollRight.set(!atRightEnd || this.hasMore());
-  }
-
-  getMatchPercent(score: number): number {
-    return Math.round(score * 100);
-  }
-
-  getMatchSeverity(score: number): 'success' | 'info' | 'warn' {
-    const pct = this.getMatchPercent(score);
-    if (pct >= 90) return 'success';
-    if (pct >= 75) return 'info';
-    return 'warn';
-  }
-
-  getModeIcon(mode: string): string {
-    return mode?.toLowerCase() === 'online' ? 'pi pi-globe' : 'pi pi-map-marker';
-  }
-
-  getLocationDisplay(event: RecommendedEvent): string {
-    if (event.mode?.toLowerCase() === 'online') {
-      return event.venue || 'Online';
-    }
-    return [event.city, event.country].filter(Boolean).join(', ');
-  }
-
-  skeletonItems = Array(4).fill(null);
 }

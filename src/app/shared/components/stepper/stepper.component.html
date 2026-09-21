@@ -1,0 +1,71 @@
+<div class="stepper-container">
+
+  <!-- ── Stepper Header & Progress Track ── -->
+  <div class="stepper-header-wrapper">
+    <div class="stepper-header">
+
+      <!-- Background connecting track line -->
+      <div class="stepper-track-bg"></div>
+      <!-- Filled connecting progress line -->
+      <div class="stepper-track-fill" [style.width.%]="progressPercentage"></div>
+
+      <!-- Step Nodes -->
+      <div
+        class="step-item"
+        *ngFor="let step of steps; let i = index"
+        [class.completed]="isStepCompleted(i)"
+        [class.active]="isStepActive(i)"
+        [class.upcoming]="!isStepCompleted(i) && !isStepActive(i)"
+        [class.clickable]="isStepCompleted(i) && allowDirectJump"
+        (click)="goToStep(i)"
+      >
+        <!-- Node Circle -->
+        <div class="step-node">
+          <i class="pi pi-check" *ngIf="isStepCompleted(i)"></i>
+          <span *ngIf="!isStepCompleted(i)">{{ i + 1 }}</span>
+        </div>
+
+        <!-- Node Labels -->
+        <div class="step-label-group">
+          <span class="step-label-title">{{ step.title }}</span>
+          <span class="step-label-subtitle" *ngIf="step.subtitle">{{ step.subtitle }}</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── Step Content Projected Slot ── -->
+  <div class="stepper-content">
+    <ng-content></ng-content>
+  </div>
+
+  <!-- ── Stepper Footer Navigation Controls ── -->
+  <div class="stepper-footer">
+    <button
+      type="button"
+      class="stepper-back-btn flex align-items-center gap-2"
+      (click)="onBack()"
+      [disabled]="isSubmitting"
+      [style.visibility]="currentStepIndex === 0 ? 'hidden' : 'visible'"
+    >
+      <i class="pi pi-arrow-left text-xs"></i>
+      <span>Back</span>
+    </button>
+
+    <button
+      type="button"
+      class="stepper-next-btn glow-btn-primary flex align-items-center gap-2"
+      (click)="onNext()"
+      [disabled]="isNextDisabled || isSubmitting"
+    >
+      <span *ngIf="!isSubmitting">{{ isLastStep ? finishButtonText : nextButtonText }}</span>
+      <span *ngIf="isSubmitting">Saving...</span>
+      <i
+        class="pi text-xs"
+        [ngClass]="isSubmitting ? 'pi-spin pi-spinner' : (isLastStep ? 'pi-check' : 'pi-arrow-right')"
+      ></i>
+    </button>
+  </div>
+
+</div>

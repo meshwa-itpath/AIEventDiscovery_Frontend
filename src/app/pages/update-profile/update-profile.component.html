@@ -1,0 +1,209 @@
+<div class="profile-fullpage">
+
+  <!-- ── Loading Overlay ── -->
+  <div class="loading-overlay" *ngIf="isLoading">
+    <div class="spinner-ring"></div>
+    <p class="loading-text">Loading your profile…</p>
+  </div>
+
+  <!-- ── Main Shell ── -->
+  <div class="profile-shell glass-card" *ngIf="!isLoading">
+
+    <!-- ── Top Nav ── -->
+    <nav class="shell-nav glass-nav flex align-items-center justify-content-between px-5 py-4 cursor-pointer" routerLink="/search">
+      <div class="flex align-items-center gap-3">
+        <div class="brand-icon-wrapper flex align-items-center justify-content-center border-round-xl p-2">
+          <i class="pi pi-sparkles text-indigo-400 text-lg"></i>
+        </div>
+        <span class="text-xl font-bold text-slate-100" style="letter-spacing:-0.02em">EventFind AI</span>
+      </div>
+      <div class="flex align-items-center gap-2 back-link">
+        <i class="pi pi-arrow-left text-slate-400" style="font-size:0.75rem"></i>
+        <span class="text-sm text-slate-400">Back to Search</span>
+      </div>
+    </nav>
+
+    <!-- ── Two-Column Body ── -->
+    <div class="shell-body">
+
+      <!-- ══ LEFT PANEL — Personal Info ══ -->
+      <div class="panel panel-left flex flex-column">
+
+        <!-- Avatar + Title -->
+        <div class="flex align-items-center gap-4 mb-5">
+          <div class="avatar-ring flex align-items-center justify-content-center flex-shrink-0">
+            <span class="avatar-initials">{{ userInitials }}</span>
+          </div>
+          <div>
+            <h2 class="profile-title mb-1">Update Profile</h2>
+            <p class="profile-subtitle">Keep your info accurate for smarter recommendations.</p>
+          </div>
+        </div>
+
+        <!-- Section heading -->
+        <div class="panel-section-label mb-4">
+          <i class="pi pi-id-card mr-2" style="color:#6366f1"></i>
+          Personal Information
+        </div>
+
+        <!-- First Name -->
+        <div class="input-group mb-4">
+          <label class="input-label" for="firstName">First Name</label>
+          <div class="input-wrapper">
+            <i class="pi pi-user input-icon"></i>
+            <input
+              id="firstName"
+              type="text"
+              class="profile-input"
+              placeholder="Enter first name"
+              [(ngModel)]="firstName"
+              [disabled]="isSubmitting"
+            />
+          </div>
+        </div>
+
+        <!-- Last Name -->
+        <div class="input-group mb-4">
+          <label class="input-label" for="lastName">Last Name</label>
+          <div class="input-wrapper">
+            <i class="pi pi-user input-icon"></i>
+            <input
+              id="lastName"
+              type="text"
+              class="profile-input"
+              placeholder="Enter last name"
+              [(ngModel)]="lastName"
+              [disabled]="isSubmitting"
+            />
+          </div>
+        </div>
+
+        <!-- Email (disabled) -->
+        <div class="input-group mb-2">
+          <label class="input-label" for="email">
+            Email Address
+            <span class="locked-badge">
+              <i class="pi pi-lock" style="font-size:0.6rem"></i> Cannot be changed
+            </span>
+          </label>
+          <div class="input-wrapper">
+            <i class="pi pi-envelope input-icon"></i>
+            <input
+              id="email"
+              type="email"
+              class="profile-input disabled-input"
+              [value]="email || 'Email on file'"
+              disabled
+            />
+            <i class="pi pi-lock lock-overlay-icon"></i>
+          </div>
+        </div>
+
+        <!-- Spacer pushes actions to bottom -->
+        <div class="flex-1"></div>
+
+        <!-- Actions -->
+        <div class="flex align-items-center gap-3 pt-4 panel-actions">
+          <button
+            type="button"
+            class="cancel-btn"
+            (click)="onCancel()"
+            [disabled]="isSubmitting"
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            class="save-btn glow-btn-primary flex align-items-center gap-2"
+            (click)="onSave()"
+            [disabled]="isSubmitting"
+          >
+            <i class="pi" [ngClass]="isSubmitting ? 'pi-spin pi-spinner' : 'pi-check'" style="font-size:0.8rem"></i>
+            {{ isSubmitting ? 'Saving…' : 'Save Changes' }}
+          </button>
+        </div>
+
+      </div>
+
+      <!-- ── Vertical Divider ── -->
+      <div class="panel-divider"></div>
+
+      <!-- ══ RIGHT PANEL — Role, Stacks & Interests ══ -->
+      <div class="panel panel-right flex flex-column">
+
+        <!-- 1. Role Section -->
+        <div class="panel-section-label mb-3 flex align-items-center justify-content-between">
+          <span>
+            <i class="pi pi-briefcase mr-2" style="color:#6366f1"></i>
+            Your Role
+          </span>
+          <span class="text-xs text-slate-500 font-normal">Single select</span>
+        </div>
+        <div class="flex flex-wrap gap-2 mb-5">
+          <button
+            type="button"
+            class="pill-btn"
+            *ngFor="let role of roles"
+            [class.selected]="selectedRole === role"
+            (click)="selectRole(role)"
+            [disabled]="isSubmitting"
+          >
+            <i class="pi pi-check text-xs mr-1" *ngIf="selectedRole === role"></i>
+            {{ role }}
+          </button>
+        </div>
+
+        <!-- 2. Primary Stacks Section -->
+        <div class="panel-section-label mb-3 flex align-items-center justify-content-between">
+          <span>
+            <i class="pi pi-code mr-2" style="color:#6366f1"></i>
+            Primary Stacks
+          </span>
+          <span class="section-tag" [class.active-tag]="selectedStacks.size > 0">
+            {{ selectedStacks.size }} selected
+          </span>
+        </div>
+        <div class="flex flex-wrap gap-2 mb-5">
+          <button
+            type="button"
+            class="pill-btn"
+            *ngFor="let stack of primaryStacks"
+            [class.selected]="isStackSelected(stack)"
+            (click)="toggleStack(stack)"
+            [disabled]="isSubmitting"
+          >
+            <i class="pi pi-check text-xs mr-1" *ngIf="isStackSelected(stack)"></i>
+            {{ stack }}
+          </button>
+        </div>
+
+        <!-- 3. Interests & Topics Section -->
+        <div class="panel-section-label mb-3 flex align-items-center justify-content-between">
+          <span>
+            <i class="pi pi-compass mr-2" style="color:#6366f1"></i>
+            Interests & Topics
+          </span>
+          <span class="section-tag" [class.active-tag]="selectedInterests.size > 0">
+            {{ selectedInterests.size }} selected
+          </span>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <button
+            type="button"
+            class="pill-btn"
+            *ngFor="let topic of interestTopics"
+            [class.selected]="isInterestSelected(topic)"
+            (click)="toggleInterest(topic)"
+            [disabled]="isSubmitting"
+          >
+            <i class="pi pi-check text-xs mr-1" *ngIf="isInterestSelected(topic)"></i>
+            {{ topic }}
+          </button>
+        </div>
+
+      </div>
+    </div><!-- /shell-body -->
+
+  </div><!-- /profile-shell -->
+
+</div>

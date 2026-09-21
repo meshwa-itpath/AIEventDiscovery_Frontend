@@ -1,5 +1,27 @@
+/* ── Page Overlay Centering ── */
+.onboarding-page-overlay {
+  justify-content: center !important;
+  align-items: center !important;
+  padding: 2.5rem 1.5rem !important;
+}
+
 .onboarding-glass-card {
-  max-width: 520px;
+  width: 70%;
+  max-width: 960px;
+  min-width: 340px;
+  margin: 0 auto;
+}
+
+@media (max-width: 1200px) {
+  .onboarding-glass-card {
+    width: 82%;
+  }
+}
+
+@media (max-width: 768px) {
+  .onboarding-glass-card {
+    width: 96%;
+  }
 }
 
 .brand-icon-wrapper {
@@ -13,7 +35,7 @@
 }
 
 .auth-title {
-  font-size: 1.85rem;
+  font-size: 1.65rem;
   font-weight: 800;
   color: #f8fafc;
   letter-spacing: -0.03em;
@@ -22,70 +44,98 @@
 
 .auth-subtitle {
   color: #94a3b8;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   margin: 0;
+  line-height: 1.4;
 }
 
-.field-label {
-  display: block;
+/* ── Active Step Card Container ── */
+.step-view-card {
+  background: rgba(15, 23, 42, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 1.5rem;
+  animation: stepFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes stepFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.field-title {
+  color: #f1f5f9;
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.field-caption {
+  color: #64748b;
+  font-size: 0.76rem;
+  margin: 2px 0 0 0;
+}
+
+.selection-pill-indicator {
+  font-size: 0.7rem;
   color: #94a3b8;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+
+.selection-count-badge {
   font-size: 0.72rem;
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin: 0;
+  color: #64748b;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 3px 8px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
 }
 
+.selection-count-badge.has-selection {
+  color: #a5b4fc;
+  background: rgba(99, 102, 241, 0.15);
+  border-color: rgba(99, 102, 241, 0.35);
+}
+
+/* ── Pill Buttons ── */
 .pill-btn {
-  background: rgba(15, 23, 42, 0.6);
+  background: rgba(15, 23, 42, 0.65);
   color: #cbd5e1;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 20px;
-  padding: 6px 14px;
-  font-size: 0.82rem;
+  padding: 12px 30px;
+  font-size: 1rem;
+  font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
   outline: none;
+  display: inline-flex;
+  align-items: center;
 }
 
 .pill-btn:hover {
   background: rgba(99, 102, 241, 0.2);
   border-color: rgba(99, 102, 241, 0.4);
   color: #f8fafc;
+  transform: translateY(-1px);
 }
 
 .pill-btn.selected {
   background: linear-gradient(135deg, rgba(99, 102, 241, 0.35) 0%, rgba(79, 70, 229, 0.45) 100%);
-  color: #a5b4fc;
+  color: #e0e7ff;
   border-color: #6366f1;
-  box-shadow: 0 0 10px rgba(99, 102, 241, 0.3);
-}
-
-.skip-btn {
-  background: transparent;
-  color: #64748b;
-  border: none;
-  font-size: 0.85rem;
-  cursor: pointer;
-  padding: 10px 4px;
-  transition: color 0.2s ease;
-}
-
-.skip-btn:hover:not(:disabled) {
-  color: #94a3b8;
-}
-
-.continue-btn {
-  padding: 10px 20px;
-  border-radius: 10px;
-  border: none;
-  font-size: 0.85rem;
+  box-shadow: 0 0 10px rgba(99, 102, 241, 0.25);
   font-weight: 600;
-  color: #fff;
-  cursor: pointer;
-}
-
-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
 }

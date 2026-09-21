@@ -16,26 +16,24 @@
 
   <!-- ── Loading Skeletons ───────────────────────────────────── -->
   @if (isLoading()) {
-    <div class="cards-row">
-      <div class="scroll-container">
-        @for (item of skeletonItems; track $index) {
-          <div class="event-card-wrapper">
-            <div class="skeleton-card">
-              <p-skeleton height="1.2rem" styleClass="mb-3" />
-              <p-skeleton width="55%" height="0.9rem" styleClass="mb-4" />
-              <p-skeleton height="2.8rem" styleClass="mb-4" />
-              <p-skeleton height="0.85rem" styleClass="mb-2" />
-              <p-skeleton height="0.85rem" styleClass="mb-3" />
-              <div class="flex gap-2 mb-4">
-                <p-skeleton width="3.5rem" height="1.4rem" borderRadius="1rem" />
-                <p-skeleton width="4rem" height="1.4rem" borderRadius="1rem" />
-                <p-skeleton width="3rem" height="1.4rem" borderRadius="1rem" />
-              </div>
-              <p-skeleton height="2.2rem" borderRadius="0.5rem" />
+    <div class="events-grid">
+      @for (item of skeletonItems; track $index) {
+        <div class="event-card-wrapper">
+          <div class="skeleton-card">
+            <p-skeleton height="1.2rem" styleClass="mb-3" />
+            <p-skeleton width="55%" height="0.9rem" styleClass="mb-4" />
+            <p-skeleton height="2.8rem" styleClass="mb-4" />
+            <p-skeleton height="0.85rem" styleClass="mb-2" />
+            <p-skeleton height="0.85rem" styleClass="mb-3" />
+            <div class="flex gap-2 mb-4">
+              <p-skeleton width="3.5rem" height="1.4rem" borderRadius="1rem" />
+              <p-skeleton width="4rem" height="1.4rem" borderRadius="1rem" />
+              <p-skeleton width="3rem" height="1.4rem" borderRadius="1rem" />
             </div>
+            <p-skeleton height="2.2rem" borderRadius="0.5rem" />
           </div>
-        }
-      </div>
+        </div>
+      }
     </div>
   }
 
@@ -48,99 +46,35 @@
     </div>
   }
 
-  <!-- ── Events Row with Chevrons ────────────────────────────── -->
+  <!-- ── Events Grid (Vertical Scroll, 4 Cards Per Row) ──────── -->
   @if (!isLoading() && !error() && events().length > 0) {
-    <div class="cards-row">
+    <div class="events-grid">
+      @for (event of events(); track event.id) {
+        <div class="event-card-wrapper">
+          <app-event-card
+            [event]="event"
+            (cardClick)="viewDetails($event)"
+          />
+        </div>
 
-      <!-- Left Chevron -->
-      <button
-        class="nav-chevron nav-left"
-        [class.hidden]="!canScrollLeft()"
-        (click)="scrollLeft()"
-        aria-label="Scroll left"
-      >
-        <i class="pi pi-chevron-left"></i>
-      </button>
-
-      <!-- Scroll Container -->
-      <div class="scroll-container" #scrollContainer (scroll)="onScroll()">
-        @for (event of events(); track event.id) {
-          <div class="event-card-wrapper">
-            <div class="event-card">
-
-              <!-- Card Top: Match Badge + Type -->
-              <div class="card-top flex align-items-center justify-content-between mb-3">
-                <p-tag
-                  [value]="getMatchPercent(event.similarityScore) + '% Match'"
-                  [severity]="getMatchSeverity(event.similarityScore)"
-                  styleClass="match-tag"
-                />
-                <span class="event-type-badge">{{ event.eventType }}</span>
-              </div>
-
-              <!-- Title -->
-              <h3 class="event-title mb-2">{{ event.title }}</h3>
-
-              <!-- Description -->
-              <p class="event-description mb-3">{{ event.description }}</p>
-
-              <!-- Meta: Date -->
-              <div class="flex align-items-center gap-2 meta-row mb-2">
-                <i class="pi pi-calendar meta-icon"></i>
-                <span class="meta-text">{{ event.startDate | date: 'MMM d, yyyy · h:mm a' }}</span>
-              </div>
-
-              <!-- Meta: Location -->
-              <div class="flex align-items-center gap-2 meta-row mb-3">
-                <i class="{{ getModeIcon(event.mode) }} meta-icon"></i>
-                <span class="meta-text">{{ getLocationDisplay(event) }}</span>
-              </div>
-
-              <!-- Chips -->
-              <div class="flex flex-wrap gap-2 mb-3">
-                <span class="chip chip-level">{{ event.level }}</span>
-                <span class="chip chip-category">{{ event.category }}</span>
-                @for (tech of event.technologies.slice(0, 3); track tech) {
-                  <span class="chip chip-tech">{{ tech }}</span>
-                }
-              </div>
-
-              <!-- Footer -->
-              <div class="card-footer flex align-items-center justify-content-between mt-auto pt-3">
-                <div class="flex align-items-center gap-2">
-                  <i class="pi pi-star-fill" style="color: #f0c040; font-size: 0.82rem;"></i>
-                  <span class="rating-value">{{ event.rating.toFixed(1) }}</span>
-                </div>
-                <p-button
-                  label="View Details"
-                  icon="pi pi-arrow-up-right"
-                  iconPos="right"
-                  size="small"
-                  severity="contrast"
-                  styleClass="view-btn"
-                />
-              </div>
-
-            </div>
-          </div>
-        }
-      </div>
-
-      <!-- Right Chevron -->
-      <button
-        class="nav-chevron nav-right"
-        [class.hidden]="!canScrollRight()"
-        (click)="scrollRight()"
-        aria-label="Scroll right"
-      >
-        @if (isLoadingMore()) {
-          <i class="pi pi-spin pi-spinner"></i>
-        } @else {
-          <i class="pi pi-chevron-right"></i>
-        }
-      </button>
-
+      }
     </div>
+
+    <!-- Infinite Scroll Sentinel & Load More Indicator -->
+    @if (hasMore()) {
+      <div #sentinel class="load-more-container flex justify-content-center mt-5 mb-3">
+        <p-button
+          label="Load More"
+          icon="pi pi-chevron-down"
+          iconPos="right"
+          [loading]="isLoadingMore()"
+          [outlined]="true"
+          severity="secondary"
+          (onClick)="loadMore()"
+          styleClass="load-more-btn"
+        />
+      </div>
+    }
   }
 
   <!-- ── Empty State ─────────────────────────────────────────── -->

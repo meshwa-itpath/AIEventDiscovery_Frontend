@@ -1,0 +1,89 @@
+<div class="event-card" [class.compact]="compactMode()">
+
+  <!-- Card Top: Match Badge + Type -->
+  <div class="card-top flex align-items-center justify-content-between mb-3">
+    @if (showMatchBadge()) {
+      <p-tag
+        [value]="getMatchPercent(event().similarityScore) + '% Match'"
+        [severity]="getMatchSeverity(event().similarityScore)"
+        styleClass="match-tag"
+      />
+    } @else {
+      <span></span>
+    }
+    <span class="event-type-badge">{{ event().eventType }}</span>
+  </div>
+
+  <!-- Title -->
+  <h3 class="event-title mb-2">{{ event().title }}</h3>
+
+  <!-- Description — hidden in compact mode -->
+  @if (!compactMode()) {
+    <p class="event-description mb-3">{{ event().description }}</p>
+  }
+
+  <!-- Meta: Date -->
+  <div class="flex align-items-center gap-2 meta-row mb-2">
+    <i class="pi pi-calendar meta-icon"></i>
+    <span class="meta-text">{{ event().startDate | date: 'MMM d, yyyy · h:mm a' }}</span>
+  </div>
+
+  <!-- Meta: Location — hidden in compact mode -->
+  @if (!compactMode()) {
+    <div class="flex align-items-center gap-2 meta-row mb-3">
+      <i class="{{ getModeIcon(event().mode) }} meta-icon"></i>
+      <span class="meta-text">{{ getLocationDisplay(event()) }}</span>
+    </div>
+  }
+
+  <!-- Chips: level + category on first line; techs on second line with +N overflow -->
+  <div class="flex gap-2 mb-2 flex-wrap">
+    <span class="chip chip-level">{{ event().level }}</span>
+    <span class="chip chip-category">{{ event().category }}</span>
+  </div>
+  <!-- Tech chips: single line, max 2 (compact) or 3 (normal), +N badge shows hidden count -->
+  <div class="flex gap-2 mb-3 overflow-hidden" style="flex-wrap: nowrap;">
+    @for (tech of visibleTechs(); track tech) {
+      <span class="chip chip-tech flex-shrink-0">{{ tech }}</span>
+    }
+    @if (hiddenTechs().length > 0) {
+      <!-- +N badge: hover triggers popover showing all hidden tech chips -->
+      <span
+        class="chip chip-extra flex-shrink-0"
+        #techPopoverTarget
+        (mouseenter)="techPopover.show($event)"
+        (mouseleave)="techPopover.hide()"
+      >+{{ hiddenTechs().length }}</span>
+
+      <p-popover #techPopover styleClass="tech-popover">
+        <div class="tech-popover-content">
+          <p class="tech-popover-label">More Technologies</p>
+          <div class="flex flex-wrap gap-2">
+            @for (tech of hiddenTechs(); track tech) {
+              <span class="chip chip-tech">{{ tech }}</span>
+            }
+          </div>
+        </div>
+      </p-popover>
+    }
+  </div>
+
+  <!-- Footer -->
+  <div class="card-footer flex align-items-center justify-content-between mt-auto pt-3">
+    <div class="flex align-items-center gap-2">
+      <i class="pi pi-star-fill" style="color: #f0c040; font-size: 0.82rem;"></i>
+      <span class="rating-value">{{ event().rating.toFixed(1) }}</span>
+    </div>
+    <p-button
+      label="View Details"
+      icon="pi pi-arrow-up-right"
+      iconPos="right"
+      size="small"
+      severity="contrast"
+      styleClass="view-btn"
+      (onClick)="onViewDetails()"
+    />
+  </div>
+
+</div>
+
