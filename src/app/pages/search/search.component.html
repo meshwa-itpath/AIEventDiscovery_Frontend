@@ -1,39 +1,5 @@
 <div class="search-page-bg min-h-screen">
 
-  <!-- ── Top Navbar ─────────────────────────────────────────── -->
-  <nav class="flex align-items-center justify-content-between px-5 py-3 top-nav">
-    <div class="flex align-items-center gap-2">
-      <i class="pi pi-calendar text-primary text-xl"></i>
-      <span class="text-xl font-bold brand-name">EventFind</span>
-    </div>
-    <div class="flex align-items-center gap-2 flex-1 justify-content-center" style="max-width: 600px; margin: 0 auto;">
-      <p-iconfield class="search-bar-field w-full" style="max-width: 100%">
-        <p-inputicon styleClass="pi pi-search" />
-        <input
-          pInputText
-          type="text"
-          placeholder="Describe what you're looking for..."
-          class="w-full nav-search-input"
-          [(ngModel)]="searchQuery"
-          (keyup.enter)="searchEvents()"
-        />
-      </p-iconfield>
-      <p-button 
-        label="Search" 
-        (onClick)="searchEvents()"
-        [loading]="isSearching()"
-        styleClass="p-button-primary border-round-md">
-      </p-button>
-    </div>
-    <div class="flex align-items-center gap-2">
-      <p-button icon="pi pi-bell" [rounded]="true" [text]="true" severity="secondary" />
-      <div class="user-avatar flex align-items-center justify-content-center"
-           (click)="navigateToProfile()"
-           title="Edit profile">
-        <i class="pi pi-user" style="font-size: 0.8rem;"></i>
-      </div>
-    </div>
-  </nav>
 
   <!-- ── Main Content ───────────────────────────────────────── -->
   <main class="search-page-content">
@@ -41,7 +7,15 @@
     <!-- Search Results Section -->
     <section class="mt-4 px-4" *ngIf="searchResults() !== null">
       <div class="results-header flex align-items-center justify-content-between mb-4">
-        <h2 class="text-2xl font-bold section-title m-0" style="color: #e6edf3;">Search Results</h2>
+        <div class="flex align-items-center gap-4">
+          <h2 class="text-2xl font-bold section-title m-0" style="color: #e6edf3;">{{ pageHeading }}</h2>
+          
+          <app-local-search
+            placeholder="Filter these results..."
+            [query]="localSearchQuery()"
+            (queryChange)="onLocalSearchChanged($event)"
+          />
+        </div>
         <div class="flex gap-2">
           <p-button
             *ngIf="hasActiveFilters()"
@@ -51,8 +25,10 @@
             styleClass="border-round-xl"
             (onClick)="clearFilters()"
             title="Clear Filters"
+            label="Clear Filters"
           />
           <p-button
+            *ngIf="showFilterButton()"
             label="Filters"
             icon="pi pi-sliders-h"
             [outlined]="true"
@@ -65,7 +41,12 @@
       
       <!-- Empty State -->
       <div *ngIf="searchResults()!.length === 0 && !isSearching()" class="text-gray-400">
-        No events found for "{{ searchQuery }}".
+        <ng-container *ngIf="searchQueryStr.trim(); else defaultEmptyState">
+          No events found for "{{ searchQueryStr }}".
+        </ng-container>
+        <ng-template #defaultEmptyState>
+          No recommended events are available right now.
+        </ng-template>
       </div>
 
       <!-- Results Grid -->
@@ -94,8 +75,6 @@
       </div>
     </section>
 
-    <!-- Recommended Events Section -->
-    <app-recommended-events *ngIf="searchResults() === null" />
 
     <!-- Filter Drawer -->
     <p-drawer

@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal, ViewChild, ElementRef, OnDestroy, HostListener } from '@angular/core';
+import { Component, inject, OnInit, signal, ViewChild, ElementRef, OnDestroy, HostListener, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
@@ -7,10 +7,11 @@ import { EventService } from '../../core/services/event.service';
 import { RecommendedEvent } from '../../core/models/recommended-event.model';
 import { EventCardComponent } from '../../shared/components/event-card/event-card.component';
 import { TagModule } from 'primeng/tag';
+import { LocalSearchComponent } from '../../shared/components/local-search/local-search.component';
 
 @Component({
   selector: 'app-recommended-events',
-  imports: [CommonModule, ButtonModule, SkeletonModule, EventCardComponent, TagModule],
+  imports: [CommonModule, ButtonModule, SkeletonModule, EventCardComponent, TagModule, LocalSearchComponent],
   templateUrl: './recommended-events.component.html',
   styleUrl: './recommended-events.component.css',
 })
@@ -29,6 +30,20 @@ export class RecommendedEventsComponent implements OnInit, OnDestroy {
   isLoadingMore = signal(false);
   hasMore = signal(true);
   error = signal<string | null>(null);
+  localSearchQuery = signal<string>('');
+
+  filteredEvents = computed(() => {
+    const q = this.localSearchQuery().toLowerCase().trim();
+    if (!q) return this.events();
+    return this.events().filter(e =>
+      e.title?.toLowerCase().includes(q) ||
+      e.description?.toLowerCase().includes(q)
+    );
+  });
+
+  onLocalSearchChanged(value: string) {
+    this.localSearchQuery.set(value);
+  }
 
   private readonly pageSize = 20;
   private currentPage = 1;

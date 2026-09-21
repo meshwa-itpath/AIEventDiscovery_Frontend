@@ -1,5 +1,5 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common';
+import { Location, CommonModule, DatePipe } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { EventService } from '../../core/services/event.service';
 import { RecommendedEvent } from '../../core/models/recommended-event.model';
@@ -19,6 +19,7 @@ export class EventDetailComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private eventService = inject(EventService);
+  private location = inject(Location);
 
   isLoading = signal(true);
   event = signal<RecommendedEvent | null>(null);
@@ -85,7 +86,7 @@ export class EventDetailComponent implements OnInit {
   }
 
   goBack(): void {
-    this.router.navigate(['/search']);
+    this.location.back();
   }
 
   getModeIcon(mode: string): string {

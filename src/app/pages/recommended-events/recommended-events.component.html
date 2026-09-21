@@ -11,7 +11,14 @@
         <p class="section-subtitle">AI-curated events based on your profile</p>
       </div>
     </div>
-    <p-tag value="Personalized" icon="pi pi-user" styleClass="personalized-badge" />
+    <div class="flex align-items-center gap-3">
+      <app-local-search
+        placeholder="Filter recommendations..."
+        [query]="localSearchQuery()"
+        (queryChange)="onLocalSearchChanged($event)"
+      />
+      <p-tag value="Personalized" icon="pi pi-user" styleClass="personalized-badge" />
+    </div>
   </div>
 
   <!-- ── Loading Skeletons ───────────────────────────────────── -->
@@ -47,9 +54,9 @@
   }
 
   <!-- ── Events Grid (Vertical Scroll, 4 Cards Per Row) ──────── -->
-  @if (!isLoading() && !error() && events().length > 0) {
+  @if (!isLoading() && !error() && filteredEvents().length > 0) {
     <div class="events-grid">
-      @for (event of events(); track event.id) {
+      @for (event of filteredEvents(); track event.id) {
         <div class="event-card-wrapper">
           <app-event-card
             [event]="event"
@@ -78,7 +85,7 @@
   }
 
   <!-- ── Empty State ─────────────────────────────────────────── -->
-  @if (!isLoading() && !error() && events().length === 0) {
+  @if (!isLoading() && !error() && filteredEvents().length === 0) {
     <div class="empty-state flex flex-column align-items-center gap-3 py-6">
       <div class="empty-icon-wrap">
         <i class="pi pi-calendar text-3xl"></i>

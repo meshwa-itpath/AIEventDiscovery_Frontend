@@ -22,26 +22,34 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/onboarding/onboarding.component').then(m => m.OnboardingComponent)
   },
   {
-    // Must be authenticated AND have completed onboarding
-    path: 'search',
+    // Shell layout for main authenticated pages
+    path: '',
     canActivate: [authGuard, onboardingGuard],
-    loadComponent: () => import('./pages/search/search.component').then(m => m.SearchComponent)
+    loadComponent: () => import('./pages/main-layout/main-layout.component').then(m => m.MainLayoutComponent),
+    children: [
+      {
+        path: '',
+        redirectTo: 'search',
+        pathMatch: 'full'
+      },
+      {
+        path: 'search',
+        loadComponent: () => import('./pages/search/search.component').then(m => m.SearchComponent)
+      },
+      {
+        path: 'events/:id',
+        loadComponent: () => import('./pages/event-detail/event-detail.component').then(m => m.EventDetailComponent)
+      }
+    ]
   },
   {
-    // Must be authenticated AND have completed onboarding
+    // Profile is outside the shell (has its own layout/nav if any)
     path: 'profile',
     canActivate: [authGuard, onboardingGuard],
     loadComponent: () => import('./pages/update-profile/update-profile.component').then(m => m.UpdateProfileComponent)
-  },
-  {
-    // Must be authenticated AND have completed onboarding
-    path: 'events/:id',
-    canActivate: [authGuard, onboardingGuard],
-    loadComponent: () => import('./pages/event-detail/event-detail.component').then(m => m.EventDetailComponent)
   },
   {
     path: '**',
     redirectTo: ''
   }
 ];
-

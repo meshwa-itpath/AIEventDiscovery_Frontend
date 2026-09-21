@@ -1,0 +1,30 @@
+/* ── Local Search Bar ─────────────────────────────────── */
+:host ::ng-deep .local-search-field {
+  width: 450px;
+  position: relative;
+}
+
+:host ::ng-deep .local-search-input {
+  width: 100%;
+  background: #0d1117 !important;
+  border: 1px solid #484f58 !important;
+  color: #e6edf3 !important;
+  border-radius: 8px !important;
+  padding-left: 2.5rem !important;
+  font-size: 0.875rem !important;
+  transition: all 0.2s ease;
+}
+
+:host ::ng-deep .local-search-input::placeholder {
+  color: #6e7681 !important;
+}
+
+:host ::ng-deep .local-search-input:hover {
+  border-color: #8b949e !important;
+}
+
+:host ::ng-deep .local-search-input:focus {
+  border-color: #6366f1 !important;
+  box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.4) !important;
+  outline: none !important;
+}

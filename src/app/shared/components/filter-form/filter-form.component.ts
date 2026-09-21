@@ -1,6 +1,6 @@
 import { Component, inject, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { CheckboxModule } from 'primeng/checkbox';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { MultiSelectModule } from 'primeng/multiselect';
@@ -10,6 +10,11 @@ import { SliderModule } from 'primeng/slider';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { ChipModule } from 'primeng/chip';
+import {
+  FILTER_GROUPS,
+  TECHNOLOGY_OPTIONS,
+  type FilterGroup,
+} from '../../../core/constants/filter-form.constants';
 
 @Component({
   selector: 'app-filter-form',
@@ -46,10 +51,20 @@ export class FilterFormComponent {
     rating: [0]
   });
 
+  readonly filterGroups: readonly FilterGroup[] = FILTER_GROUPS;
+
   @Output() filtersApplied = new EventEmitter<any>();
 
   get currentRating(): number {
     return this.filterForm.get('rating')?.value || 0;
+  }
+
+  getFilterControl(controlName: 'level' | 'mode' | 'category' | 'eventType'): FormControl {
+    return this.filterForm.get(controlName) as FormControl;
+  }
+
+  getOptionInputId(controlName: 'level' | 'mode' | 'category' | 'eventType', optionValue: string): string {
+    return `${controlName}-${String(optionValue).toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
   }
 
   applyFilters() {
@@ -65,12 +80,5 @@ export class FilterFormComponent {
     this.filterForm.reset({ rating: 0 });
   }
 
-  techOptions = [
-    { label: '.NET', value: '.NET' },
-    { label: 'Java', value: 'Java' },
-    { label: 'Python', value: 'Python' },
-    { label: 'React', value: 'React' },
-    { label: 'Angular', value: 'Angular' },
-    { label: 'Node.js', value: 'Node.js' }
-  ];
+  techOptions: Array<{ label: string; value: string }> = [...TECHNOLOGY_OPTIONS];
 }

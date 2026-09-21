@@ -1,0 +1,65 @@
+<div class="shell-fullpage">
+  <!-- ── Main Shell (Full Screen Glass Card) ── -->
+  <div class="shell-container glass-card">
+    
+    <!-- ── Top Nav ── -->
+    <nav class="shell-nav glass-nav flex align-items-center justify-content-between px-5 py-3">
+      
+      <!-- Left: Brand -->
+      <div class="flex align-items-center gap-3" (click)="goHome()" style="cursor: pointer;" title="Go Home">
+        <div class="brand-icon-wrap flex align-items-center justify-content-center border-round-xl p-2">
+          <i class="pi pi-sparkles text-indigo-400 text-lg"></i>
+        </div>
+        <span class="text-xl font-bold text-slate-100" style="letter-spacing:-0.02em">EventFind AI</span>
+      </div>
+
+      <!-- Center: Search Bar (only on /search) -->
+      @if (isSearchPage()) {
+        <div class="flex align-items-center gap-2 flex-1 justify-content-center search-center">
+          <p-iconfield class="search-bar-field w-full" style="max-width: 100%">
+            <p-inputicon styleClass="pi pi-search" />
+            <input
+              pInputText
+              type="text"
+              placeholder="Describe what you're looking for..."
+              class="w-full nav-search-input"
+              [ngModel]="searchInputValue"
+              (ngModelChange)="onSearchInputChanged($event)"
+              (keyup.enter)="searchEvents()"
+            />
+          </p-iconfield>
+          <p-button 
+            label="Search" 
+            (onClick)="searchEvents()"
+            [loading]="isSearching"
+            styleClass="p-button-primary border-round-md search-button">
+          </p-button>
+        </div>
+      }
+
+      <!-- Right: Context-aware -->
+      @if (isDetailPage()) {
+        <button class="back-btn flex align-items-center gap-2" (click)="goBack()">
+          <i class="pi pi-arrow-left" style="font-size:0.8rem"></i>
+          <span>Back to Search</span>
+        </button>
+      } @else {
+        <!-- For You + Search pages -->
+        <div class="flex align-items-center gap-3">
+          <div class="user-avatar flex align-items-center justify-content-center"
+               (click)="navigateToProfile()"
+               title="Edit profile">
+            <i class="pi pi-user" style="font-size: 0.8rem;"></i>
+          </div>
+          <p-button icon="pi pi-sign-out" [rounded]="true" [text]="true" severity="secondary" (click)="logout()" title="Logout"></p-button>
+        </div>
+      }
+    </nav>
+
+    <!-- ── Content Outlet ── -->
+    <div class="shell-content">
+      <router-outlet></router-outlet>
+    </div>
+
+  </div>
+</div>
