@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { UserService } from '../../core/services/user.service';
 import { ToastService } from '../../core/services/toast.service';
 import { ROLES, PRIMARY_STACKS, INTEREST_TOPICS } from '../../core/constants/profile.constants';
@@ -10,7 +10,7 @@ import { StepItem } from '../../shared/components/stepper/step-item.model';
 @Component({
   selector: 'app-onboarding',
   standalone: true,
-  imports: [CommonModule, StepperComponent],
+  imports: [CommonModule, RouterLink, StepperComponent],
   templateUrl: './onboarding.component.html',
   styleUrl: './onboarding.component.css',
 })
@@ -42,6 +42,14 @@ export class OnboardingComponent {
       return !this.selectedRole;
     }
     return false;
+  }
+
+  isChecklistCompleted(index: number): boolean {
+    return index < this.currentStepIndex;
+  }
+
+  isChecklistActive(index: number): boolean {
+    return index === this.currentStepIndex;
   }
 
   onStepChange(index: number): void {

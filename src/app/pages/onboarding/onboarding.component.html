@@ -1,115 +1,141 @@
 <div class="page-bg-overlay onboarding-page-overlay">
-  <div class="onboarding-glass-card glass-card overflow-hidden">
-
-    <!-- ── Header / Logo ── -->
-    <div class="flex align-items-center justify-content-between px-5 py-4 glass-nav cursor-pointer" routerLink="/">
-      <div class="flex align-items-center gap-3">
-        <div class="brand-icon-wrapper flex align-items-center justify-content-center border-round-xl p-2">
-          <i class="pi pi-sparkles text-indigo-400 text-lg"></i>
+  <div class="onboarding-shell">
+    <aside class="onboarding-left">
+      <div class="brand-header" routerLink="/auth/login">
+        <div class="brand-icon-wrapper">
+          <i class="pi pi-sparkles"></i>
         </div>
-        <span class="text-xl font-bold text-slate-100" style="letter-spacing:-0.02em">EventFind AI</span>
-      </div>
-      <i class="pi pi-home text-slate-400"></i>
-    </div>
-
-    <!-- ── Body ── -->
-    <div class="px-5 pt-4 pb-5">
-
-      <div class="mb-4">
-        <div class="inline-flex align-items-center justify-content-center border-round-xl p-2 mb-2 icon-bubble-header">
-          <i class="pi pi-user-plus text-indigo-400 text-lg"></i>
-        </div>
-        <h2 class="auth-title mb-1">Personalize Your Experience</h2>
-        <p class="auth-subtitle">Help our AI discover events matched to your engineering focus.</p>
+        <span>EventFind AI</span>
       </div>
 
-      <!-- ── Reusable Stepper Component ── -->
-      <app-stepper
-        [steps]="steps"
-        [currentStepIndex]="currentStepIndex"
-        [isNextDisabled]="isNextDisabled"
-        [isSubmitting]="isSubmitting"
-        (stepChange)="onStepChange($event)"
-        (next)="onNext()"
-        (back)="onBack()"
-        (finish)="onFinish()"
-      >
-
-        <!-- Step 1: Role / Specialization -->
-        <div class="step-view-card" *ngIf="currentStepIndex === 0">
-          <div class="flex align-items-center justify-content-between mb-3">
-            <div>
-              <h3 class="field-title">What is your primary role?</h3>
-              <p class="field-caption">Select the role that best defines your core persona</p>
-            </div>
-            <span class="selection-pill-indicator">Single select</span>
-          </div>
-          <div class="flex flex-wrap gap-2">
-            <button
-              type="button"
-              class="pill-btn"
-              *ngFor="let role of roles"
-              [class.selected]="selectedRole === role"
-              (click)="selectRole(role)"
-            >
-              <i class="pi pi-check text-xs mr-1" *ngIf="selectedRole === role"></i>
-              {{ role }}
-            </button>
-          </div>
+      <div class="onboarding-intro">
+        <div class="mini-label">
+          <span class="mini-dot"></span>
+          personalize
         </div>
 
-        <!-- Step 2: Primary Stacks -->
-        <div class="step-view-card" *ngIf="currentStepIndex === 1">
-          <div class="flex align-items-center justify-content-between mb-3">
-            <div>
-              <h3 class="field-title">What are your primary stacks?</h3>
-              <p class="field-caption">Languages and runtimes you build with daily</p>
-            </div>
-            <span class="selection-count-badge" [class.has-selection]="selectedStacks.size > 0">
-              {{ selectedStacks.size }} selected
-            </span>
-          </div>
-          <div class="flex flex-wrap gap-2">
-            <button
-              type="button"
-              class="pill-btn"
-              *ngFor="let stack of primaryStacks"
-              [class.selected]="isStackSelected(stack)"
-              (click)="toggleStack(stack)"
-            >
-              <i class="pi pi-check text-xs mr-1" *ngIf="isStackSelected(stack)"></i>
-              {{ stack }}
-            </button>
-          </div>
+        <h1>Get personalized events from day one.</h1>
+
+        <p>
+         Answer a few quick questions about your role, technical skills, and interests. This helps our AI understand what you’re looking for and tailor your event recommendations, so your first feed is already filled with events that match your engineering focus.
+        </p>
+      </div>
+
+      <ul class="onboarding-checklist">
+        <li
+          [class.completed]="isChecklistCompleted(0)"
+          [class.active]="isChecklistActive(0)"
+        >
+          <span class="check">✓</span>
+          <span>Your role &amp; specialization</span>
+        </li>
+        <li
+          [class.completed]="isChecklistCompleted(1)"
+          [class.active]="isChecklistActive(1)"
+        >
+          <span class="check">✓</span>
+          <span>Your daily toolkit &amp; stacks</span>
+        </li>
+        <li
+          [class.completed]="isChecklistCompleted(2)"
+          [class.active]="isChecklistActive(2)"
+        >
+          <span class="check">✓</span>
+          <span>Topics you’re curious about</span>
+        </li>
+      </ul>
+    </aside>
+
+    <main class="onboarding-right">
+      <div class="onboarding-panel">
+        <div class="panel-icon-bubble">
+          <i class="pi pi-user-plus"></i>
         </div>
 
-        <!-- Step 3: Interests & Topics -->
-        <div class="step-view-card" *ngIf="currentStepIndex === 2">
-          <div class="flex align-items-center justify-content-between mb-3">
-            <div>
-              <h3 class="field-title">What topics are you curious about?</h3>
-              <p class="field-caption">Domains and tech you want to explore or attend events for</p>
+        <h2>Personalize Your Experience</h2>
+        <p>Help our AI discover events matched to your engineering focus.</p>
+
+        <app-stepper
+          [steps]="steps"
+          [currentStepIndex]="currentStepIndex"
+          [isNextDisabled]="isNextDisabled"
+          [isSubmitting]="isSubmitting"
+          (stepChange)="onStepChange($event)"
+          (next)="onNext()"
+          (back)="onBack()"
+          (finish)="onFinish()"
+        >
+          <div class="step-view-card" *ngIf="currentStepIndex === 0">
+            <div class="step-heading-row">
+              <div>
+                <h3 class="field-title">What is your primary role?</h3>
+                <p class="field-caption">Select the role that best defines your core persona</p>
+              </div>
+              <span class="selection-pill-indicator">Single select</span>
             </div>
-            <span class="selection-count-badge" [class.has-selection]="selectedInterests.size > 0">
-              {{ selectedInterests.size }} selected
-            </span>
+            <div class="pill-grid">
+              <button
+                type="button"
+                class="pill-btn"
+                *ngFor="let role of roles"
+                [class.selected]="selectedRole === role"
+                (click)="selectRole(role)"
+              >
+                <i class="pi pi-check" *ngIf="selectedRole === role"></i>
+                {{ role }}
+              </button>
+            </div>
           </div>
-          <div class="flex flex-wrap gap-2">
-            <button
-              type="button"
-              class="pill-btn"
-              *ngFor="let topic of interestTopics"
-              [class.selected]="isInterestSelected(topic)"
-              (click)="toggleInterest(topic)"
-            >
-              <i class="pi pi-check text-xs mr-1" *ngIf="isInterestSelected(topic)"></i>
-              {{ topic }}
-            </button>
+
+          <div class="step-view-card" *ngIf="currentStepIndex === 1">
+            <div class="step-heading-row">
+              <div>
+                <h3 class="field-title">What are your primary stacks?</h3>
+                <p class="field-caption">Languages and runtimes you build with daily</p>
+              </div>
+              <span class="selection-count-badge" [class.has-selection]="selectedStacks.size > 0">
+                {{ selectedStacks.size }} selected
+              </span>
+            </div>
+            <div class="pill-grid">
+              <button
+                type="button"
+                class="pill-btn"
+                *ngFor="let stack of primaryStacks"
+                [class.selected]="isStackSelected(stack)"
+                (click)="toggleStack(stack)"
+              >
+                <i class="pi pi-check" *ngIf="isStackSelected(stack)"></i>
+                {{ stack }}
+              </button>
+            </div>
           </div>
-        </div>
 
-      </app-stepper>
-
-    </div>
+          <div class="step-view-card" *ngIf="currentStepIndex === 2">
+            <div class="step-heading-row">
+              <div>
+                <h3 class="field-title">What topics are you curious about?</h3>
+                <p class="field-caption">Domains and tech you want to explore or attend events for</p>
+              </div>
+              <span class="selection-count-badge" [class.has-selection]="selectedInterests.size > 0">
+                {{ selectedInterests.size }} selected
+              </span>
+            </div>
+            <div class="pill-grid">
+              <button
+                type="button"
+                class="pill-btn"
+                *ngFor="let topic of interestTopics"
+                [class.selected]="isInterestSelected(topic)"
+                (click)="toggleInterest(topic)"
+              >
+                <i class="pi pi-check" *ngIf="isInterestSelected(topic)"></i>
+                {{ topic }}
+              </button>
+            </div>
+          </div>
+        </app-stepper>
+      </div>
+    </main>
   </div>
 </div>

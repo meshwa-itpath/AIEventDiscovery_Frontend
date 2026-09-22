@@ -30,7 +30,7 @@
       <div class="panel panel-left flex flex-column">
 
         <!-- Avatar + Title -->
-        <div class="flex align-items-center gap-4 mb-5">
+        <div class="flex align-items-center gap-4 mb-5 p-2">
           <div class="avatar-ring flex align-items-center justify-content-center flex-shrink-0">
             <span class="avatar-initials">{{ userInitials }}</span>
           </div>
@@ -40,11 +40,12 @@
           </div>
         </div>
 
-        <!-- Section heading -->
-        <div class="panel-section-label mb-4">
-          <i class="pi pi-id-card mr-2" style="color:#6366f1"></i>
-          Personal Information
-        </div>
+        <div class="p-4">
+          <!-- Section heading -->
+          <div class="panel-section-label mb-4">
+            <i class="pi pi-id-card mr-2" style="color:#6366f1"></i>
+            Personal Information
+          </div>
 
         <!-- First Name -->
         <div class="input-group mb-4">
@@ -98,29 +99,31 @@
             <i class="pi pi-lock lock-overlay-icon"></i>
           </div>
         </div>
-
+        </div>
+        
         <!-- Spacer pushes actions to bottom -->
         <div class="flex-1"></div>
 
         <!-- Actions -->
-        <div class="flex align-items-center gap-3 pt-4 panel-actions">
-          <button
+        <div class="flex align-items-center gap-3 p-4 panel-actions">
+          <p-button
             type="button"
-            class="cancel-btn"
-            (click)="onCancel()"
+            label="Cancel"
+            severity="secondary"
+            [outlined]="true"
+            styleClass="p-button-secondary"
             [disabled]="isSubmitting"
-          >
-            Cancel
-          </button>
-          <button
+            (onClick)="onCancel()"
+          ></p-button>
+
+          <p-button
             type="button"
-            class="save-btn glow-btn-primary flex align-items-center gap-2"
-            (click)="onSave()"
+            [label]="isSubmitting ? 'Saving…' : 'Save Changes'"
+            [icon]="isSubmitting ? 'pi pi-spin pi-spinner' : 'pi pi-check'"
+            styleClass="p-button-primary"
             [disabled]="isSubmitting"
-          >
-            <i class="pi" [ngClass]="isSubmitting ? 'pi-spin pi-spinner' : 'pi-check'" style="font-size:0.8rem"></i>
-            {{ isSubmitting ? 'Saving…' : 'Save Changes' }}
-          </button>
+            (onClick)="onSave()"
+          ></p-button>
         </div>
 
       </div>
@@ -130,77 +133,82 @@
 
       <!-- ══ RIGHT PANEL — Role, Stacks & Interests ══ -->
       <div class="panel panel-right flex flex-column">
-
-        <!-- 1. Role Section -->
-        <div class="panel-section-label mb-3 flex align-items-center justify-content-between">
-          <span>
-            <i class="pi pi-briefcase mr-2" style="color:#6366f1"></i>
-            Your Role
-          </span>
-          <span class="text-xs text-slate-500 font-normal">Single select</span>
+      
+        <div class="p-4">
+          <!-- 1. Role Section -->
+          <div class="panel-section-label mb-3 flex align-items-center justify-content-between">
+            <span>
+              <i class="pi pi-briefcase mr-2" style="color:#6366f1"></i>
+              Your Role
+            </span>
+            <span class="text-xs text-slate-500 font-normal">Single select</span>
+          </div>
+          <div class="flex flex-wrap gap-2 mb-5">
+            <button
+              type="button"
+              class="pill-btn"
+              *ngFor="let role of roles"
+              [class.selected]="selectedRole === role"
+              (click)="selectRole(role)"
+              [disabled]="isSubmitting"
+            >
+              <i class="pi pi-check text-xs mr-1" *ngIf="selectedRole === role"></i>
+              {{ role }}
+            </button>
+          </div>
         </div>
-        <div class="flex flex-wrap gap-2 mb-5">
-          <button
-            type="button"
-            class="pill-btn"
-            *ngFor="let role of roles"
-            [class.selected]="selectedRole === role"
-            (click)="selectRole(role)"
-            [disabled]="isSubmitting"
-          >
-            <i class="pi pi-check text-xs mr-1" *ngIf="selectedRole === role"></i>
-            {{ role }}
-          </button>
-        </div>
-
-        <!-- 2. Primary Stacks Section -->
-        <div class="panel-section-label mb-3 flex align-items-center justify-content-between">
-          <span>
-            <i class="pi pi-code mr-2" style="color:#6366f1"></i>
-            Primary Stacks
-          </span>
-          <span class="section-tag" [class.active-tag]="selectedStacks.size > 0">
-            {{ selectedStacks.size }} selected
-          </span>
-        </div>
-        <div class="flex flex-wrap gap-2 mb-5">
-          <button
-            type="button"
-            class="pill-btn"
-            *ngFor="let stack of primaryStacks"
-            [class.selected]="isStackSelected(stack)"
-            (click)="toggleStack(stack)"
-            [disabled]="isSubmitting"
-          >
-            <i class="pi pi-check text-xs mr-1" *ngIf="isStackSelected(stack)"></i>
-            {{ stack }}
-          </button>
-        </div>
-
-        <!-- 3. Interests & Topics Section -->
-        <div class="panel-section-label mb-3 flex align-items-center justify-content-between">
-          <span>
-            <i class="pi pi-compass mr-2" style="color:#6366f1"></i>
-            Interests & Topics
-          </span>
-          <span class="section-tag" [class.active-tag]="selectedInterests.size > 0">
-            {{ selectedInterests.size }} selected
-          </span>
-        </div>
-        <div class="flex flex-wrap gap-2">
-          <button
-            type="button"
-            class="pill-btn"
-            *ngFor="let topic of interestTopics"
-            [class.selected]="isInterestSelected(topic)"
-            (click)="toggleInterest(topic)"
-            [disabled]="isSubmitting"
-          >
-            <i class="pi pi-check text-xs mr-1" *ngIf="isInterestSelected(topic)"></i>
-            {{ topic }}
-          </button>
+        
+        <div class="p-4">
+          <!-- 2. Primary Stacks Section -->
+          <div class="panel-section-label mb-3 flex align-items-center justify-content-between">
+            <span>
+              <i class="pi pi-code mr-2" style="color:#6366f1"></i>
+              Primary Stacks
+            </span>
+            <span class="section-tag" [class.active-tag]="selectedStacks.size > 0">
+              {{ selectedStacks.size }} selected
+            </span>
+          </div>
+          <div class="flex flex-wrap gap-2 mb-5">
+            <button
+              type="button"
+              class="pill-btn"
+              *ngFor="let stack of primaryStacks"
+              [class.selected]="isStackSelected(stack)"
+              (click)="toggleStack(stack)"
+              [disabled]="isSubmitting"
+            >
+              <i class="pi pi-check text-xs mr-1" *ngIf="isStackSelected(stack)"></i>
+              {{ stack }}
+            </button>
+          </div>
         </div>
 
+        <div class="p-4 ">
+          <!-- 3. Interests & Topics Section -->
+          <div class="panel-section-label mb-3 flex align-items-center justify-content-between">
+            <span>
+              <i class="pi pi-compass mr-2" style="color:#6366f1"></i>
+              Interests & Topics
+            </span>
+            <span class="section-tag" [class.active-tag]="selectedInterests.size > 0">
+              {{ selectedInterests.size }} selected
+            </span>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <button
+              type="button"
+              class="pill-btn"
+              *ngFor="let topic of interestTopics"
+              [class.selected]="isInterestSelected(topic)"
+              (click)="toggleInterest(topic)"
+              [disabled]="isSubmitting"
+            >
+              <i class="pi pi-check text-xs mr-1" *ngIf="isInterestSelected(topic)"></i>
+              {{ topic }}
+            </button>
+          </div>
+        </div>
       </div>
     </div><!-- /shell-body -->
 

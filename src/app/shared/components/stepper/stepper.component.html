@@ -42,30 +42,26 @@
 
   <!-- ── Stepper Footer Navigation Controls ── -->
   <div class="stepper-footer">
-    <button
+    <p-button
       type="button"
-      class="stepper-back-btn flex align-items-center gap-2"
-      (click)="onBack()"
-      [disabled]="isSubmitting"
+      label="Back"
+      icon="pi pi-arrow-left"
+      severity="secondary"
+      [outlined]="true"
+      [disabled]="isSubmitting || currentStepIndex === 0"
       [style.visibility]="currentStepIndex === 0 ? 'hidden' : 'visible'"
-    >
-      <i class="pi pi-arrow-left text-xs"></i>
-      <span>Back</span>
-    </button>
+      styleClass="stepper-back-btn"
+      (onClick)="onBack()"
+    ></p-button>
 
-    <button
+    <p-button
       type="button"
-      class="stepper-next-btn glow-btn-primary flex align-items-center gap-2"
-      (click)="onNext()"
+      [label]="isSubmitting ? 'Saving...' : (isLastStep ? finishButtonText : nextButtonText)"
+      [icon]="isSubmitting ? 'pi pi-spin pi-spinner' : (isLastStep ? 'pi pi-check' : 'pi pi-arrow-right')"
       [disabled]="isNextDisabled || isSubmitting"
-    >
-      <span *ngIf="!isSubmitting">{{ isLastStep ? finishButtonText : nextButtonText }}</span>
-      <span *ngIf="isSubmitting">Saving...</span>
-      <i
-        class="pi text-xs"
-        [ngClass]="isSubmitting ? 'pi-spin pi-spinner' : (isLastStep ? 'pi-check' : 'pi-arrow-right')"
-      ></i>
-    </button>
+      styleClass="p-button-primary"
+      (onClick)="onNext()"
+    ></p-button>
   </div>
 
 </div>

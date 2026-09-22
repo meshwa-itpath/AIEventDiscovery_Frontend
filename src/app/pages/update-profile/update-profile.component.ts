@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RouterModule } from '@angular/router';
+import { ButtonModule } from 'primeng/button';
 import { UserService } from '../../core/services/user.service';
 import { ToastService } from '../../core/services/toast.service';
 import { UpdateProfileRequest } from '../../core/models/user-profile.model';
@@ -10,7 +11,7 @@ import { ROLES, PRIMARY_STACKS, INTEREST_TOPICS } from '../../core/constants/pro
 
 @Component({
   selector: 'app-update-profile',
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, ButtonModule],
   templateUrl: './update-profile.component.html',
   styleUrl: './update-profile.component.css',
 })

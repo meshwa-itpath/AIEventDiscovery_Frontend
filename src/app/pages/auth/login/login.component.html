@@ -1,80 +1,131 @@
-<div class="page-bg-overlay">
-  <div class="auth-glass-card glass-card w-full overflow-hidden">
-
-    <!-- ── Header / Logo ── -->
-    <div class="flex align-items-center justify-content-between px-5 py-4 glass-nav cursor-pointer" routerLink="/">
-      <div class="flex align-items-center gap-3">
-        <div class="brand-icon-wrapper flex align-items-center justify-content-center border-round-xl p-2">
-          <i class="pi pi-sparkles text-indigo-400 text-lg"></i>
-        </div>
-        <span class="text-xl font-bold text-slate-100" style="letter-spacing:-0.02em">EventFind AI</span>
+<div class="login-page-shell">
+  <div class="login-left-panel">
+    <header class="login-brand" routerLink="/">
+      <div class="brand-icon-wrapper flex align-items-center justify-content-center border-round-xl p-2">
+        <i class="pi pi-sparkles text-indigo-400 text-lg"></i>
       </div>
-      <i class="pi pi-home text-slate-400"></i>
+      <span>EventFind AI</span>
+    </header>
+
+    <div class="member-badge">
+      <span class="member-dot"></span>
+      <span>member access</span>
     </div>
 
-    <!-- ── Form Body ── -->
-    <div class="px-5 pt-5 pb-6">
-      <div class="mb-5">
-        <h2 class="auth-title mb-1">Welcome back</h2>
-        <p class="auth-subtitle">Sign in to discover events tailored for you</p>
+    <h1 class="login-hero-title">Pick up where your stack left off.</h1>
+
+    <p class="login-hero-copy">
+      Log back in to your saved conferences, hackathons, and meetups — and a feed that keeps getting sharper
+    </p>
+
+    <div class="mini-cards-row">
+      <div class="mini-card">
+        <div class="mini-card-icon">
+          <i class="pi pi-code"></i>
+        </div>
+        <div class="mini-card-title">Hackathons</div>
+        <div class="mini-card-text">Saved &amp; upcoming</div>
       </div>
 
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="flex flex-column gap-4">
+      <div class="mini-card">
+        <div class="mini-card-icon">
+          <i class="pi pi-bars"></i>
+        </div>
+        <div class="mini-card-title">Conferences</div>
+        <div class="mini-card-text">Matched to you</div>
+      </div>
+    </div>
+  </div>
 
-        <!-- Email -->
-        <div class="flex flex-column gap-2">
-          <label for="email" class="field-label">Email Address</label>
+  <div class="login-right-panel">
+    <div class="top-signup-link">
+      <span>New here? </span>
+      <a routerLink="/auth/signup">Create an account</a>
+    </div>
+
+    <div class="login-card">
+      <h2>Welcome back</h2>
+      <p>Log in to keep finding events that fit what you're building.</p>
+
+      <!-- <div class="social-row">
+        <button type="button" class="social-btn">
+          <span class="social-icon google">G</span>
+          <span>Google</span>
+        </button>
+        <button type="button" class="social-btn">
+          <span class="social-icon github"><i class="pi pi-github"></i></span>
+          <span>GitHub</span>
+        </button>
+      </div> -->
+
+      <!-- <div class="divider-label">or with email</div> -->
+
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+        <div class="field-wrap">
+          <label for="email">Email</label>
           <input
             pInputText
             id="email"
             type="email"
             formControlName="email"
-            placeholder="you@example.com"
-            class="w-full form-input py-3 px-3"
+            placeholder="you@company.com"
+            class="form-input"
             [class.ng-invalid]="isControlInvalid('email')"
             [class.ng-dirty]="isControlInvalid('email')"
           />
           <div *ngIf="isControlInvalid('email')" class="error-container">
-            <span *ngIf="loginForm.get('email')?.errors?.['required']" class="text-xs error-text">Email is required.</span>
-            <span *ngIf="loginForm.get('email')?.errors?.['email']" class="text-xs error-text">Please enter a valid email address.</span>
+            <span *ngIf="loginForm.get('email')?.errors?.['required']" class="error-text">Email is required.</span>
+            <span *ngIf="loginForm.get('email')?.errors?.['email']" class="error-text">Please enter a valid email address.</span>
           </div>
         </div>
 
-        <!-- Password -->
-        <div class="flex flex-column gap-2">
-          <label for="password" class="field-label">Password</label>
+        <div class="field-wrap">
+          <label for="password">Password</label>
           <p-password
             id="password"
             formControlName="password"
             [feedback]="false"
             [toggleMask]="true"
-            placeholder="••••••••"
+            placeholder="Enter your password"
             styleClass="w-full"
-            inputStyleClass="w-full form-input py-3 px-3"
+            inputStyleClass="w-full form-input"
             [class.ng-invalid]="isControlInvalid('password')"
             [class.ng-dirty]="isControlInvalid('password')"
           />
           <div *ngIf="isControlInvalid('password')" class="error-container">
-            <span *ngIf="loginForm.get('password')?.errors?.['required']" class="text-xs error-text">Password is required.</span>
-            <span *ngIf="loginForm.get('password')?.errors?.['minlength']" class="text-xs error-text">Password must be at least 6 characters.</span>
+            <span *ngIf="loginForm.get('password')?.errors?.['required']" class="error-text">Password is required.</span>
+            <span *ngIf="loginForm.get('password')?.errors?.['minlength']" class="error-text">Password must be at least 6 characters.</span>
           </div>
         </div>
 
-        <!-- Submit -->
+        <!-- <div class="remember-row">
+          <label class="checkbox-row">
+            <input type="checkbox" />
+            <span>Remember me</span>
+          </label>
+          <a href="javascript:void(0)" class="inline-link">Forgot password?</a>
+        </div> -->
+
         <p-button
           type="submit"
-          label="Sign in"
-          styleClass="glow-btn-primary w-full py-3 font-semibold text-base mt-1"
-        />
+          label="Log in"
+          styleClass="p-button-primary w-full"
+        ></p-button>
 
-        <!-- Link -->
-        <div class="text-center">
-          <span class="text-sm text-slate-400">Don't have an account? </span>
-          <a routerLink="/auth/signup" class="nav-link text-sm font-semibold">Sign up</a>
+        <div class="bottom-signup-link">
+          <span>Don't have an account? </span>
+          <a routerLink="/auth/signup">Sign up free</a>
         </div>
-
       </form>
     </div>
 
+    <footer class="login-footer">
+      <span>© 2026 EventFind AI</span>
+      <div class="footer-links">
+        <a href="javascript:void(0)">Privacy</a>
+        <a href="javascript:void(0)">Terms</a>
+        <a href="javascript:void(0)">Contact</a>
+      </div>
+    </footer>
   </div>
 </div>

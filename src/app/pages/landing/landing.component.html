@@ -1,96 +1,89 @@
 <div class="page-bg-overlay">
-  <div class="landing-glass-card glass-card w-full overflow-hidden">
-
-    <!-- ── Navbar ── -->
-    <nav class="flex align-items-center justify-content-between px-5 py-4 glass-nav">
-      <div class="flex align-items-center gap-3">
+  <div class="landing-shell">
+    <nav class="landing-nav">
+      <div class="landing-brand">
         <div class="brand-icon-wrapper flex align-items-center justify-content-center border-round-xl p-2">
           <i class="pi pi-sparkles text-indigo-400 text-xl"></i>
         </div>
-        <span class="text-xl font-bold text-slate-100" style="letter-spacing:-0.02em">EventFind AI</span>
+        <span class="landing-brand-text">EventFind AI</span>
       </div>
-      <div class="flex gap-2 align-items-center">
-        <p-button label="Log in" [outlined]="true" styleClass="p-button-secondary" size="small" routerLink="/auth/login" />
-        <p-button label="Sign up" icon="pi pi-arrow-up-right" iconPos="right" styleClass="glow-btn-primary" size="small" routerLink="/auth/signup" />
+
+      <div class="landing-nav-actions">
+        <p-button
+          label="Log in"
+          styleClass="landing-nav-btn landing-nav-btn-outline"
+          size="small"
+          routerLink="/auth/login"
+        ></p-button>
+
+        <p-button
+          label="Sign up"
+          styleClass="landing-nav-btn landing-nav-btn-primary"
+          size="small"
+          routerLink="/auth/signup"
+        ></p-button>
       </div>
     </nav>
 
-    <!-- ── Hero Content ── -->
-    <div class="px-5 pt-6 pb-4">
-      <div class="ai-badge mb-4 inline-flex align-items-center gap-2 px-3 py-1 border-round-3xl">
-        <i class="pi pi-bolt text-indigo-400 text-xs"></i>
-        <span class="text-xs font-medium text-slate-200">Powered by Semantic Vector Search</span>
-      </div>
-
-      <h1 class="hero-title mb-3">
-        Discover events by<br />
-        <span class="gradient-text">describing your mood</span>
-      </h1>
-
-      <p class="hero-subtitle mb-5 text-slate-300">
-        No rigid filters. Just describe what you feel like doing — our AI finds the perfect match.
-      </p>
-
-      <!-- Search bar -->
-      <p-iconfield class="w-full mb-4">
-        <p-inputicon styleClass="pi pi-search text-indigo-400" />
-        <input
-          pInputText
-          type="text"
-          placeholder="e.g. something chill outdoors this weekend..."
-          class="w-full search-input py-3 px-4 text-slate-100"
-        />
-      </p-iconfield>
-
-      <p-button
-        label="Get started free"
-        icon="pi pi-arrow-right"
-        iconPos="right"
-        styleClass="glow-btn-primary px-5 py-3 text-base font-semibold"
-        routerLink="/auth/signup"
-      />
-    </div>
-
-    <!-- ── Divider ── -->
-    <div class="section-divider mx-5 my-4"></div>
-
-    <!-- ── Features ── -->
-    <div class="grid px-4 pb-5">
-      <div class="col-12 sm:col-4 p-2">
-        <div class="feature-card p-3 flex align-items-center gap-3">
-          <div class="icon-bubble flex align-items-center justify-content-center flex-shrink-0">
-            <i class="pi pi-comments text-indigo-400"></i>
-          </div>
-          <div>
-            <div class="text-sm font-bold text-slate-100 mb-1">Natural Prompt Search</div>
-            <div class="text-xs text-slate-300">Describe your ideal vibe in plain language.</div>
-          </div>
+    <main class="landing-main py-4 px-6">
+      <section class="landing-copy">
+        <div class="search-pill">
+          <span class="search-dot"></span>
+          <span>semantic search for tech events</span>
         </div>
-      </div>
-      <div class="col-12 sm:col-4 p-2">
-        <div class="feature-card p-3 flex align-items-center gap-3">
-          <div class="icon-bubble flex align-items-center justify-content-center flex-shrink-0">
-            <i class="pi pi-sparkles text-indigo-400"></i>
-          </div>
-          <div>
-            <div class="text-sm font-bold text-slate-100 mb-1">Smart AI Ranking</div>
-            <div class="text-xs text-slate-300">Vector-matched events ranked by relevance.</div>
-          </div>
-        </div>
-      </div>
-      <div class="col-12 sm:col-4 p-2">
-        <div class="feature-card p-3 flex align-items-center gap-3">
-          <div class="icon-bubble flex align-items-center justify-content-center flex-shrink-0">
-            <i class="pi pi-heart text-indigo-400"></i>
-          </div>
-          <div>
-            <div class="text-sm font-bold text-slate-100 mb-1">Tailored Profiles</div>
-            <div class="text-xs text-slate-300">Save events and personalize your discovery feed.</div>
-          </div>
-        </div>
-      </div>
-    </div>
 
+        <h1 class="hero-title">
+          Tech events that<br />
+          match what you're<br />
+          building.
+        </h1>
+
+        <p class="hero-subtitle">
+          Describe your stack, your interests, or what you're stuck on — EventFind AI surfaces
+          conferences, hackathons, meetups, and workshops that actually fit, ranked by relevance instead of popularity.
+        </p>
+
+        <div class="landing-meta">
+          <i class="pi pi-code meta-arrow"></i>
+          <span>Indexing conferences, hackathons, and meetups across 40+ tech communities</span>
+        </div>
+      </section>
+
+      <section class="landing-visual" aria-label="Featured event categories">
+        <div class="floating-card floating-card-top-left">
+          <i class="pi pi-code mini-icon"></i>
+          <div class="floating-title">Hackathons</div>
+          <div class="floating-copy">Weekend builds, sponsor tracks, and demo days</div>
+        </div>
+
+        <div class="floating-card floating-card-mid-left">
+          <i class="pi pi-align-left mini-icon"></i>
+          <div class="floating-title">Conferences</div>
+          <div class="floating-copy">Keynotes and deep-dive tracks world class for</div>
+        </div>
+
+        <div class="floating-card floating-card-bottom-left">
+          <i class="pi pi-users mini-icon"></i>
+          <div class="floating-title">Developer meetups</div>
+          <div class="floating-copy">Small-group sessions with people building similar things</div>
+        </div>
+
+        <div class="floating-card floating-card-bottom-right">
+          <i class="pi pi-box mini-icon"></i>
+          <div class="floating-title">Product launches</div>
+          <div class="floating-copy">Early looks at tools and platforms before they're everywhere</div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="landing-footer">
+      <span>© 2026 EventFind AI</span>
+      <div class="footer-links">
+        <a href="javascript:void(0)">Privacy</a>
+        <a href="javascript:void(0)">Terms</a>
+        <a href="javascript:void(0)">Contact</a>
+      </div>
+    </footer>
   </div>
 </div>
 

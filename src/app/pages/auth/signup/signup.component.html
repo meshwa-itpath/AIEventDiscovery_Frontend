@@ -1,115 +1,147 @@
-<div class="page-bg-overlay">
-  <div class="auth-glass-card glass-card w-full overflow-hidden">
-
-    <!-- ── Header / Logo ── -->
-    <div class="flex align-items-center justify-content-between px-5 py-4 glass-nav cursor-pointer" routerLink="/">
-      <div class="flex align-items-center gap-3">
-        <div class="brand-icon-wrapper flex align-items-center justify-content-center border-round-xl p-2">
-          <i class="pi pi-sparkles text-indigo-400 text-lg"></i>
-        </div>
-        <span class="text-xl font-bold text-slate-100" style="letter-spacing:-0.02em">EventFind AI</span>
+<div class="signup-page-shell">
+  <div class="signup-left-panel">
+    <header class="signup-brand" routerLink="/">
+      <div class="brand-icon-wrapper flex align-items-center justify-content-center border-round-xl p-2">
+        <i class="pi pi-sparkles text-indigo-400 text-lg"></i>
       </div>
-      <i class="pi pi-home text-slate-400"></i>
+      <span>EventFind AI</span>
+    </header>
+
+    <div class="feature-badge">
+      <span class="feature-dot"></span>
+      <span>free to join</span>
     </div>
 
-    <!-- ── Form Body ── -->
-    <div class="px-5 pt-5 pb-6">
-      <div class="mb-4">
-        <h2 class="auth-title mb-1">Create account</h2>
-        <p class="auth-subtitle">Start discovering personalized events today</p>
+    <h1 class="signup-hero-title">Find your next event before it fills up.</h1>
+
+    <p class="signup-hero-copy">
+      Create a free account and start describing what you're into — the matches get better the more you save.
+    </p>
+
+    <div class="signup-benefits">
+      <div class="benefit-item">
+        <span class="checkmark">✓</span>
+        <span>Semantic search across conferences, hackathons &amp; meetups</span>
       </div>
+      <div class="benefit-item">
+        <span class="checkmark">✓</span>
+        <span>A discovery feed that sharpens as you save events</span>
+      </div>
+      <div class="benefit-item">
+        <span class="checkmark">✓</span>
+        <span>No spam — just relevant events, ranked by fit</span>
+      </div>
+    </div>
+  </div>
 
-      <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="flex flex-column gap-3">
+  <div class="signup-right-panel">
+    <div class="top-login-link">
+      <span>Already have an account? </span>
+      <a routerLink="/auth/login">Log in</a>
+    </div>
 
-        <!-- Name Row -->
-        <div class="flex gap-3">
-          <div class="flex flex-column gap-1 flex-1">
-            <label for="firstName" class="field-label">First Name</label>
+    <div class="signup-card">
+      <h2>Create your account</h2>
+      <p>Free forever. No credit card required.</p>
+
+      <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="signup-form">
+        <div class="name-row">
+          <div class="field-wrap flex-1">
+            <label for="firstName">First name</label>
             <input
               pInputText
               id="firstName"
               type="text"
               formControlName="firstName"
-              placeholder="John"
-              class="w-full form-input py-3 px-3"
+              placeholder="Alex"
+              class="form-input"
               [class.ng-invalid]="isControlInvalid('firstName')"
               [class.ng-dirty]="isControlInvalid('firstName')"
             />
             <div *ngIf="isControlInvalid('firstName')" class="error-container">
-              <span *ngIf="signupForm.get('firstName')?.errors?.['required']" class="text-xs error-text">Required.</span>
+              <span *ngIf="signupForm.get('firstName')?.errors?.['required']" class="error-text">FirstName is required.</span>
             </div>
           </div>
-          <div class="flex flex-column gap-1 flex-1">
-            <label for="lastName" class="field-label">Last Name</label>
+
+          <div class="field-wrap flex-1">
+            <label for="lastName">Last name</label>
             <input
               pInputText
               id="lastName"
               type="text"
               formControlName="lastName"
-              placeholder="Doe"
-              class="w-full form-input py-3 px-3"
+              placeholder="Rivera"
+              class="form-input"
               [class.ng-invalid]="isControlInvalid('lastName')"
               [class.ng-dirty]="isControlInvalid('lastName')"
             />
             <div *ngIf="isControlInvalid('lastName')" class="error-container">
-              <span *ngIf="signupForm.get('lastName')?.errors?.['required']" class="text-xs error-text">Required.</span>
+              <span *ngIf="signupForm.get('lastName')?.errors?.['required']" class="error-text">LastName is required.</span>
             </div>
           </div>
         </div>
 
-        <!-- Email -->
-        <div class="flex flex-column gap-1">
-          <label for="email" class="field-label">Email Address</label>
+        <div class="field-wrap">
+          <label for="email">Email</label>
           <input
             pInputText
             id="email"
             type="email"
             formControlName="email"
-            placeholder="you@example.com"
-            class="w-full form-input py-3 px-3"
+            placeholder="you@company.com"
+            class="form-input"
             [class.ng-invalid]="isControlInvalid('email')"
             [class.ng-dirty]="isControlInvalid('email')"
           />
           <div *ngIf="isControlInvalid('email')" class="error-container">
-            <span *ngIf="signupForm.get('email')?.errors?.['required']" class="text-xs error-text">Email is required.</span>
-            <span *ngIf="signupForm.get('email')?.errors?.['email']" class="text-xs error-text">Please enter a valid email address.</span>
+            <span *ngIf="signupForm.get('email')?.errors?.['required']" class="error-text">Email is required.</span>
+            <span *ngIf="signupForm.get('email')?.errors?.['email']" class="error-text">Please enter a valid email address.</span>
           </div>
         </div>
 
-        <!-- Password -->
-        <div class="flex flex-column gap-1">
-          <label for="password" class="field-label">Password</label>
+        <div class="field-wrap">
+          <label for="password">Password</label>
           <p-password
             id="password"
             formControlName="password"
             [toggleMask]="true"
-            placeholder="Min. 8 characters"
+            placeholder="At least 8 characters"
             styleClass="w-full"
-            inputStyleClass="w-full form-input py-3 px-3"
+            inputStyleClass="w-full form-input"
             [class.ng-invalid]="isControlInvalid('password')"
             [class.ng-dirty]="isControlInvalid('password')"
           />
           <div *ngIf="isControlInvalid('password')" class="error-container">
-            <span *ngIf="signupForm.get('password')?.errors?.['required']" class="text-xs error-text">Password is required.</span>
-            <span *ngIf="signupForm.get('password')?.errors?.['minlength']" class="text-xs error-text">Password must be at least 8 characters.</span>
+            <span *ngIf="signupForm.get('password')?.errors?.['required']" class="error-text">Password is required.</span>
+            <span *ngIf="signupForm.get('password')?.errors?.['minlength']" class="error-text">Password must be at least 8 characters.</span>
           </div>
         </div>
 
-        <!-- Submit -->
+        <!-- <label class="terms-row">
+          <input type="checkbox" />
+          <span>I agree to the <a href="javascript:void(0)">Terms of Service</a> and <a href="javascript:void(0)">Privacy Policy</a></span>
+        </label> -->
+
         <p-button
           type="submit"
-          label="Create account"
-          styleClass="glow-btn-primary w-full py-3 font-semibold text-base mt-1"
-        />
+          label="Create free account"
+          styleClass="p-button-primary w-full"
+        ></p-button>
 
-        <!-- Link -->
-        <div class="text-center">
-          <span class="text-sm text-slate-400">Already have an account? </span>
-          <a routerLink="/auth/login" class="nav-link text-sm font-semibold">Log in</a>
+        <div class="bottom-login-link">
+          <span>Already have an account? </span>
+          <a routerLink="/auth/login">Log in</a>
         </div>
-
       </form>
     </div>
 
+    <footer class="signup-footer">
+      <span>© 2026 EventFind AI</span>
+      <div class="footer-links">
+        <a href="javascript:void(0)">Privacy</a>
+        <a href="javascript:void(0)">Terms</a>
+        <a href="javascript:void(0)">Contact</a>
+      </div>
+    </footer>
   </div>
 </div>

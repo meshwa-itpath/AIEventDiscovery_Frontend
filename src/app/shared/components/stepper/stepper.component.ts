@@ -1,11 +1,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ButtonModule } from 'primeng/button';
 import { StepItem } from './step-item.model';
 
 @Component({
   selector: 'app-stepper',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ButtonModule],
   templateUrl: './stepper.component.html',
   styleUrl: './stepper.component.css'
 })
@@ -30,9 +31,9 @@ export class StepperComponent {
   get progressPercentage(): number {
     if (!this.steps || this.steps.length <= 1 || this.currentStepIndex === 0) return 0;
     if (this.steps.length === 3) {
-      return this.currentStepIndex === 1 ? 44 : 90;
+      return this.currentStepIndex === 1 ? 44 : 77.5;
     }
-    return Math.min(90, (this.currentStepIndex / (this.steps.length - 1)) * 90);
+    return Math.min(90, (this.currentStepIndex / (this.steps.length - 1)) * 77.5);
   }
 
   isStepCompleted(index: number): boolean {
