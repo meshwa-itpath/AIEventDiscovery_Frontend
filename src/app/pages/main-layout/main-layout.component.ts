@@ -41,6 +41,7 @@ export class MainLayoutComponent {
     return this.searchState.searchQuery();
   }
   set searchQuery(value: string) {
+    this.draftSearchQuery.set(value);
     this.searchState.searchQuery.set(value);
   }
 
@@ -49,6 +50,7 @@ export class MainLayoutComponent {
   }
   set searchInputValue(value: string) {
     this.draftSearchQuery.set(value);
+    this.searchState.searchQuery.set(value);
   }
 
   get isSearching(): boolean {
@@ -85,6 +87,7 @@ export class MainLayoutComponent {
 
   onSearchInputChanged(value: string): void {
     this.draftSearchQuery.set(value);
+    this.searchState.searchQuery.set(value);
   }
 
   logout(): void {
