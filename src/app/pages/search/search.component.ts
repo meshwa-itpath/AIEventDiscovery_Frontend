@@ -47,7 +47,7 @@ export class SearchComponent implements OnInit {
   activeFilters = signal<any>(null);
   hasActiveFilters = computed(() => this.hasFilterValues(this.activeFilters()));
   hasActiveSearch = computed(() => !!this.searchState.searchQuery().trim() || this.hasActiveFilters());
-  showFilterButton = computed(() => this.hasActiveSearch());
+  showFilterButton = computed(() => !this.searchState.isSearching() || this.hasActiveFilters() || !!this.searchState.searchQuery().trim());
 
   localSearchQuery = signal<string>('');
 

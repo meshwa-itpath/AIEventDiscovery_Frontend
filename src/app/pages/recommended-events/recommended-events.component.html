@@ -17,6 +17,24 @@
         [query]="localSearchQuery()"
         (queryChange)="onLocalSearchChanged($event)"
       />
+      <p-button
+        *ngIf="hasActiveFilters()"
+        icon="pi pi-times"
+        label="Clear Filters"
+        [outlined]="true"
+        severity="danger"
+        styleClass="border-round-xl"
+        (onClick)="clearFilters()"
+      />
+      <p-button
+        *ngIf="showFilterButton()"
+        label="Filters"
+        icon="pi pi-sliders-h"
+        [outlined]="true"
+        severity="secondary"
+        styleClass="filter-trigger-btn border-round-xl"
+        (onClick)="filterDrawerVisible = true"
+      />
       <p-tag value="Personalized" icon="pi pi-user" styleClass="personalized-badge" />
     </div>
   </div>
@@ -95,6 +113,14 @@
     </div>
   }
 
-  
+  <p-drawer
+    [(visible)]="filterDrawerVisible"
+    position="right"
+    styleClass="filter-drawer"
+    header="Filters"
+    [style]="{ width: '25rem' }"
+  >
+    <app-filter-form (filtersApplied)="onFiltersApplied($event)" />
+  </p-drawer>
 
 </section>

@@ -38,6 +38,7 @@ export class RecommendedEventsComponent implements OnInit, OnDestroy {
   filterDrawerVisible = false;
   activeFilters = signal<any>(null);
   hasActiveFilters = computed(() => this.hasFilterValues(this.activeFilters()));
+  showFilterButton = computed(() => !this.isLoading() || this.hasActiveFilters());
 
   filteredEvents = computed(() => {
     const all = this.events();
