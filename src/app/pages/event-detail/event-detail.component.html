@@ -180,25 +180,55 @@
 
         <!-- ── Related Events Section ── -->
         <div class="related-events-section pt-2" style="border-top: 1px solid #30363d;">
-          <h2 class="text-xl font-bold mb-4" style="color: #e6edf3;">Similar Events You Might Like</h2>
-          
+          <div class="related-header">
+            <h2 class="text-xl font-bold" style="color: #e6edf3;">Similar Events You Might Like</h2>
+          </div>
+
           @if (isRelatedLoading()) {
-            <div class="flex overflow-x-auto gap-4 pb-4">
+            <div class="flex gap-4 pb-4">
               <p-skeleton width="280px" height="200px" borderRadius="12px" styleClass="flex-shrink-0" />
               <p-skeleton width="280px" height="200px" borderRadius="12px" styleClass="flex-shrink-0" />
               <p-skeleton width="280px" height="200px" borderRadius="12px" styleClass="flex-shrink-0" />
             </div>
           } @else if (relatedEvents() && relatedEvents()!.length > 0) {
-            <div class="related-scroll-container flex overflow-x-auto gap-4 pb-4">
-              @for (related of relatedEvents(); track related.id) {
-                <div class="related-card-wrapper flex-shrink-0">
-                  <app-event-card
-                    [event]="related"
-                    [showMatchBadge]="false"
-                    [compactMode]="true"
-                    (cardClick)="navigateToEventDetail($event)"
-                  />
+            <div class="related-slider-row">
+              @if (relatedEvents() && relatedEvents()!.length > 3) {
+                <button
+                  class="slider-arrow"
+                  type="button"
+                  [disabled]="!canScrollPrev()"
+                  (click)="prevRelated()"
+                  aria-label="Previous related events"
+                >
+                  <i class="pi pi-chevron-left"></i>
+                </button>
+              }
+
+              <div #relatedSliderShell class="related-slider-shell" (scroll)="onRelatedScroll()">
+                <div #relatedSliderTrack class="related-slider-track">
+                  @for (related of relatedEvents(); track related.id) {
+                    <div class="related-card-wrapper">
+                      <app-event-card
+                        [event]="related"
+                        [showMatchBadge]="false"
+                        [compactMode]="true"
+                        (cardClick)="navigateToEventDetail($event)"
+                      />
+                    </div>
+                  }
                 </div>
+              </div>
+
+              @if (relatedEvents() && relatedEvents()!.length > 3) {
+                <button
+                  class="slider-arrow"
+                  type="button"
+                  [disabled]="!canScrollNext()"
+                  (click)="nextRelated()"
+                  aria-label="Next related events"
+                >
+                  <i class="pi pi-chevron-right"></i>
+                </button>
               }
             </div>
           } @else {

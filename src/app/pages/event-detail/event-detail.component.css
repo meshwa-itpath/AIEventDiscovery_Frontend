@@ -248,29 +248,63 @@
 
 
 /* ── Related Events ── */
-.related-scroll-container {
-  scrollbar-width: thin;
-  scrollbar-color: #6366f1 transparent;
+.related-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
-.related-scroll-container::-webkit-scrollbar {
-  height: 6px;
+.related-slider-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
 }
 
-.related-scroll-container::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 4px;
+.slider-arrow {
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid rgba(99, 102, 241, 0.35);
+  background: rgba(15, 23, 42, 0.7);
+  color: #e2e8f0;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
 }
 
-.related-scroll-container::-webkit-scrollbar-thumb {
-  background-color: rgba(99, 102, 241, 0.6);
-  border-radius: 4px;
+.slider-arrow:hover:not(:disabled) {
+  background: rgba(99, 102, 241, 0.18);
+  border-color: rgba(99, 102, 241, 0.7);
+  transform: translateY(-1px);
 }
 
-.related-scroll-container::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(99, 102, 241, 0.9);
+.slider-arrow:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.related-slider-shell {
+  overflow: hidden;
+  flex: 1;
+  min-width: 0;
+  padding-bottom: 0.5rem;
+}
+
+.related-slider-track {
+  display: flex;
+  gap: 1rem;
+  transition: transform 0.35s ease;
+  width: max-content;
 }
 
 .related-card-wrapper {
   width: 280px;
+  flex-shrink: 0;
 }
+
