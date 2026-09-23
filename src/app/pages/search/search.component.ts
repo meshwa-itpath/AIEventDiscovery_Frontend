@@ -10,6 +10,7 @@ import { EventCardComponent } from '../../shared/components/event-card/event-car
 import { DrawerModule } from 'primeng/drawer';
 import { FilterFormComponent } from '../../shared/components/filter-form/filter-form.component';
 import { SearchStateService } from '../../core/services/search-state.service';
+import { SearchCacheService } from '../../core/services/search-cache.service';
 import { LocalSearchComponent } from '../../shared/components/local-search/local-search.component';
 
 @Component({
@@ -31,6 +32,7 @@ export class SearchComponent implements OnInit {
   private router = inject(Router);
   private eventService = inject(EventService);
   private searchState = inject(SearchStateService);
+  private searchCache = inject(SearchCacheService);
 
   filterDrawerVisible = signal(false);
 
@@ -63,10 +65,22 @@ export class SearchComponent implements OnInit {
 
   @ViewChild(FilterFormComponent) filterFormComponent!: FilterFormComponent;
 
+  private lastHandledTrigger = 0;
+
   constructor() {
+    const shouldResetSearch = (history.state as any)?.resetSearch === true;
+    if (shouldResetSearch) {
+      this.searchState.clearSearch();
+      this.activeFilters.set(null);
+      this.localSearchQuery.set('');
+      this.allFetchedEvents.set(null);
+      this.searchResults.set(null);
+    }
+
     effect(() => {
       const trigger = this.searchState.triggerSearch();
-      if (trigger > 0) {
+      if (trigger > 0 && trigger !== this.lastHandledTrigger) {
+        this.lastHandledTrigger = trigger;
         untracked(() => {
           this.loadCurrentPageData();
         });
@@ -138,12 +152,24 @@ export class SearchComponent implements OnInit {
     }
 
     this.searchState.isSearching.set(true);
+    const cachedPage = this.searchCache.getPage(query, 1, this.pageSize);
+
+    if (cachedPage) {
+      this.currentPage = 1;
+      this.allFetchedEvents.set(this.searchCache.getMergedResults(query, this.pageSize));
+      this.hasMore.set(this.searchCache.hasMore(query, this.pageSize));
+      this.filterEvents();
+      this.searchState.isSearching.set(false);
+      return;
+    }
+
     this.currentPage = 1;
 
     this.eventService.searchEvents(query, this.currentPage, this.pageSize).subscribe({
       next: (response) => {
         if (response.success) {
-          this.allFetchedEvents.set(response.data);
+          this.searchCache.setPage(query, this.currentPage, response.data, response.pagination, this.pageSize);
+          this.allFetchedEvents.set(this.searchCache.getMergedResults(query, this.pageSize));
           this.filterEvents();
           this.hasMore.set(response.pagination ? response.pagination.hasNextPage : response.data.length === this.pageSize);
         } else {
@@ -169,29 +195,46 @@ export class SearchComponent implements OnInit {
 
     const query = this.searchState.searchQuery().trim();
     this.isLoadingMore.set(true);
-    this.currentPage++;
+    const nextPage = this.currentPage + 1;
+
+    if (query) {
+      const cachedPage = this.searchCache.getPage(query, nextPage, this.pageSize);
+      if (cachedPage) {
+        this.currentPage = nextPage;
+        this.allFetchedEvents.set(this.searchCache.getMergedResults(query, this.pageSize));
+        this.hasMore.set(this.searchCache.hasMore(query, this.pageSize));
+        this.filterEvents();
+        this.isLoadingMore.set(false);
+        return;
+      }
+    }
 
     const request$ = query
-      ? this.eventService.searchEvents(query, this.currentPage, this.pageSize)
-      : this.eventService.getRecommendedEvents(this.currentPage, this.pageSize);
+      ? this.eventService.searchEvents(query, nextPage, this.pageSize)
+      : this.eventService.getRecommendedEvents(nextPage, this.pageSize);
 
     request$.subscribe({
       next: (response: any) => {
         const data = response?.data ?? [];
         if (response?.success && data.length > 0) {
-          this.allFetchedEvents.update((prev) => [...(prev ?? []), ...data]);
+          if (query) {
+            this.searchCache.setPage(query, nextPage, data, response.pagination, this.pageSize);
+            this.currentPage = nextPage;
+            this.allFetchedEvents.set(this.searchCache.getMergedResults(query, this.pageSize));
+          } else {
+            this.currentPage = nextPage;
+            this.allFetchedEvents.update((prev) => [...(prev ?? []), ...data]);
+          }
           this.filterEvents();
           this.hasMore.set(response.pagination ? response.pagination.hasNextPage : data.length === this.pageSize);
         } else {
           this.hasMore.set(false);
-          this.currentPage--;
         }
         this.isLoadingMore.set(false);
       },
       error: (err) => {
         console.error('Error loading more results', err);
         this.isLoadingMore.set(false);
-        this.currentPage--;
       }
     });
   }

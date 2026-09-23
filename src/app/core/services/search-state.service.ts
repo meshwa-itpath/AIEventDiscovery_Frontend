@@ -12,4 +12,10 @@ export class SearchStateService {
     this.searchQuery.set(query);
     this.triggerSearch.set(Date.now());
   }
+
+  clearSearch() {
+    this.searchQuery.set('');
+    this.triggerSearch.set(Date.now());
+    this.isSearching.set(false);
+  }
 }

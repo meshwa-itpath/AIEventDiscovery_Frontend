@@ -145,7 +145,7 @@ export class UpdateProfileComponent implements OnInit {
   }
 
   onCancel(): void {
-    this.router.navigate(['/search']);
+    this.router.navigate(['/search'], { state: { resetSearch: true } });
   }
 
   onSave(): void {
@@ -168,7 +168,7 @@ export class UpdateProfileComponent implements OnInit {
       next: (response: any) => {
         if (response && response.success) {
           this.toastService.success(response.message || 'Profile updated successfully!');
-          this.router.navigate(['/search']);
+          this.router.navigate(['/search'], { state: { resetSearch: true } });
         } else {
           this.toastService.error(response?.message || 'Failed to update profile.');
           this.isSubmitting = false;

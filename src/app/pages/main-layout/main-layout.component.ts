@@ -81,7 +81,7 @@ export class MainLayoutComponent {
 
   goHome(): void {
     this.draftSearchQuery.set('');
-    this.searchState.executeSearch('');
+    this.searchState.clearSearch();
     this.router.navigate(['/search']);
   }
 
