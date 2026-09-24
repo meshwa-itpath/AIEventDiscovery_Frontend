@@ -1,2 +1,8 @@
 <p-toast />
+
+<div *ngIf="loading$ | async" class="global-loader" aria-live="polite" aria-busy="true">
+  <div class="global-loader-spinner"></div>
+  <span>Loading...</span>
+</div>
+
 <router-outlet />
