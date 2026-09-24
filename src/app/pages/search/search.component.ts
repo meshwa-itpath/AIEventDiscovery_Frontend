@@ -252,7 +252,6 @@ export class SearchComponent implements OnInit {
       this.filterFormComponent.resetForm();
     }
     this.filterEvents();
-    this.loadCurrentPageData();
   }
 
   onLocalSearchChanged(value: string): void {
