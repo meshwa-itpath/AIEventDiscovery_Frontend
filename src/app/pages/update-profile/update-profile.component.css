@@ -22,6 +22,39 @@
   border-radius: 0px !important;
 }
 
+.profile-footer {
+  position: sticky;
+  bottom: 0;
+  z-index: 20;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  color: rgba(226, 232, 240, 0.7);
+  font-size: 0.8rem;
+  border-top: 1px solid rgba(148, 163, 184, 0.14);
+  padding: 1rem 1.5rem;
+  background: #13171e;
+  backdrop-filter: blur(6px);
+}
+
+.footer-links {
+  display: flex;
+  align-items: center;
+  gap: 1.4rem;
+}
+
+.footer-links a {
+  color: rgba(226, 232, 240, 0.72);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+  color: #a5b4fc;
+}
+
 @keyframes fadeInScale {
   from { opacity: 0; transform: scale(0.98) translateY(10px); }
   to   { opacity: 1; transform: scale(1) translateY(0); }
