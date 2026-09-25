@@ -40,13 +40,28 @@
       </div>
       
       <!-- Empty State -->
-      <div *ngIf="searchResults()!.length === 0 && !isSearching()" class="text-gray-400">
-        <ng-container *ngIf="searchQueryStr.trim(); else defaultEmptyState">
-          No events found for "{{ searchQueryStr }}".
-        </ng-container>
-        <ng-template #defaultEmptyState>
-          No recommended events are available right now.
-        </ng-template>
+      <div *ngIf="searchResults()!.length === 0 && !isSearching()" class="empty-state">
+        <div class="empty-state-icon">
+          <i class="pi pi-search"></i>
+        </div>
+
+        <p class="empty-title">
+          <ng-container *ngIf="searchQueryStr.trim() || hasActiveFilters(); else defaultEmptyState">
+            No matching events
+          </ng-container>
+          <ng-template #defaultEmptyState>
+            No recommendations yet
+          </ng-template>
+        </p>
+
+        <p class="empty-sub">
+          <ng-container *ngIf="searchQueryStr.trim(); else defaultEmptyMessage">
+            No events found for "{{ searchQueryStr }}".
+          </ng-container>
+          <ng-template #defaultEmptyMessage>
+            Try adjusting your filters or clearing them to broaden the results.
+          </ng-template>
+        </p>
       </div>
 
       <!-- Results Grid -->

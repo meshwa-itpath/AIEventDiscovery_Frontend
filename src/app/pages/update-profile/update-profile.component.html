@@ -10,10 +10,10 @@
   <div class="profile-shell glass-card" *ngIf="!isLoading">
 
     <!-- ── Top Nav ── -->
-    <nav class="shell-nav glass-nav flex align-items-center justify-content-between px-5 py-4 cursor-pointer" routerLink="/search">
+    <nav class="shell-nav glass-nav flex align-items-center justify-content-between px-3 py-2 cursor-pointer" routerLink="/search">
       <div class="flex align-items-center gap-3">
-        <div class="brand-icon-wrapper flex align-items-center justify-content-center border-round-xl p-2">
-          <i class="pi pi-sparkles text-indigo-400 text-lg"></i>
+        <div class="brand-icon-wrapper flex align-items-center justify-content-center border-round-xl">
+          <img src="AIEventFavicon.png" alt="EventFind AI" style="width: 3.5rem; height: 3.5rem; object-fit: contain; border-radius: 0.5rem;" />
         </div>
         <span class="text-xl font-bold text-slate-100" style="letter-spacing:-0.02em">EventFind AI</span>
       </div>
@@ -30,7 +30,7 @@
       <div class="panel panel-left flex flex-column">
 
         <!-- Avatar + Title -->
-        <div class="flex align-items-center gap-4 mb-5 p-2">
+        <div class="flex align-items-center gap-4 mb-5 p-3">
           <div class="avatar-ring flex align-items-center justify-content-center flex-shrink-0">
             <span class="avatar-initials">{{ userInitials }}</span>
           </div>
@@ -143,7 +143,7 @@
             </span>
             <span class="text-xs text-slate-500 font-normal">Single select</span>
           </div>
-          <div class="flex flex-wrap gap-2 mb-5">
+          <div class="flex flex-wrap gap-2 mb-5 p-2">
             <button
               type="button"
               class="pill-btn"
@@ -169,7 +169,7 @@
               {{ selectedStacks.size }} selected
             </span>
           </div>
-          <div class="flex flex-wrap gap-2 mb-5">
+          <div class="flex flex-wrap gap-2 mb-5 p-2">
             <button
               type="button"
               class="pill-btn"
@@ -195,7 +195,7 @@
               {{ selectedInterests.size }} selected
             </span>
           </div>
-          <div class="flex flex-wrap gap-2">
+          <div class="flex flex-wrap gap-2 p-2">
             <button
               type="button"
               class="pill-btn"

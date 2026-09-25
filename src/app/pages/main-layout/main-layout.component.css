@@ -44,7 +44,7 @@
 }
 
 .search-center {
-  max-width: 600px; 
+  max-width: 750px; 
   margin: 0 auto;
 }
 
@@ -89,6 +89,20 @@
   border-color: #30363d !important;
   color: #e6edf3 !important;
   border-radius: 8px;
+}
+
+.search-clear-icon {
+  position: absolute;
+  right: 0.85rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #8b949e;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.search-clear-icon:hover {
+  color: #e6edf3;
 }
 
 .nav-search-input::placeholder {

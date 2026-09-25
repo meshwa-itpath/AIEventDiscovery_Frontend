@@ -91,6 +91,29 @@ export class RecommendedEventsComponent implements OnInit, OnDestroy {
     });
   }
 
+  private formatDateKey(value: string | Date | null): string | null {
+    if (!value) return null;
+
+    if (value instanceof Date) {
+      const year = value.getFullYear();
+      const month = String(value.getMonth() + 1).padStart(2, '0');
+      const day = String(value.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    }
+
+    const trimmed = value.trim();
+    const datePart = trimmed.match(/^\d{4}-\d{2}-\d{2}/);
+    if (datePart) return datePart[0];
+
+    const date = new Date(trimmed);
+    if (Number.isNaN(date.getTime())) return null;
+
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
   private matchesFilters(event: RecommendedEvent, filters: any): boolean {
     if (filters.level?.length && !filters.level.includes(event.level)) return false;
     if (filters.mode?.length && !filters.mode.includes(event.mode)) return false;
@@ -101,15 +124,15 @@ export class RecommendedEventsComponent implements OnInit, OnDestroy {
     if (filters.rating > 0 && (event.rating || 0) < filters.rating) return false;
 
     if (filters.startDate) {
-      const eventStart = new Date(event.startDate).getTime();
-      const filterStart = new Date(filters.startDate).getTime();
-      if (eventStart < filterStart) return false;
+      const eventStart = this.formatDateKey(event.startDate);
+      const filterStart = this.formatDateKey(filters.startDate);
+      if (!eventStart || !filterStart || eventStart < filterStart) return false;
     }
 
     if (filters.endDate) {
-      const eventEnd = new Date(event.endDate).getTime();
-      const filterEnd = new Date(filters.endDate).getTime();
-      if (eventEnd > filterEnd) return false;
+      const eventEnd = this.formatDateKey(event.endDate || event.startDate);
+      const filterEnd = this.formatDateKey(filters.endDate);
+      if (!eventEnd || !filterEnd || eventEnd > filterEnd) return false;
     }
 
     if (filters.technologies?.length) {

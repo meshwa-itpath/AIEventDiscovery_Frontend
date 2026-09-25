@@ -90,6 +90,11 @@ export class MainLayoutComponent {
     this.searchState.searchQuery.set(value);
   }
 
+  clearSearchInput(): void {
+    this.draftSearchQuery.set('');
+    this.searchState.clearSearch();
+  }
+
   logout(): void {
     sessionStorage.clear();
     this.router.navigate(['/auth/login']);

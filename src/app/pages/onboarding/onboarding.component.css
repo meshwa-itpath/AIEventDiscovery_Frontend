@@ -59,6 +59,7 @@
   border: 1px solid rgba(99, 102, 241, 0.35);
   color: #c4b5fd;
   font-size: 0.9rem;
+  padding: 2rem !important;
 }
 
 .brand-header span {

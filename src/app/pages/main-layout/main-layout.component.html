@@ -3,13 +3,13 @@
   <div class="shell-container glass-card">
     
     <!-- ── Top Nav ── -->
-    <nav class="shell-nav glass-nav flex align-items-center justify-content-between px-5 py-3">
+    <nav class="shell-nav glass-nav flex align-items-center justify-content-between px-3 py-2">
       
       <!-- Left: Brand -->
       <div class="flex align-items-center gap-3" (click)="goHome()" style="cursor: pointer;" title="Go Home">
-        <div class="brand-icon-wrap flex align-items-center justify-content-center border-round-xl p-2">
-          <i class="pi pi-sparkles text-indigo-400 text-lg"></i>
-        </div>
+        <!-- <div class="brand-icon-wrap flex align-items-center justify-content-center border-round-xl p-2"> -->
+          <img src="AIEventFavicon.png" alt="EventFind AI" style="width: 3.5rem; height: 3.5rem; object-fit: contain; border-radius: 0.5rem;" />
+        <!-- </div> -->
         <span class="text-xl font-bold text-slate-100" style="letter-spacing:-0.02em">EventFind AI</span>
       </div>
 
@@ -22,11 +22,17 @@
               pInputText
               type="text"
               placeholder="Describe what you're looking for..."
-              class="w-full nav-search-input"
+              class="w-full nav-search-input pr-8"
               [ngModel]="searchInputValue"
               (ngModelChange)="onSearchInputChanged($event)"
               (keyup.enter)="searchEvents()"
             />
+            <i
+              *ngIf="searchInputValue"
+              class="pi pi-times search-clear-icon"
+              (click)="clearSearchInput()"
+              title="Clear search"
+            ></i>
           </p-iconfield>
           <p-button 
             label="Search" 
